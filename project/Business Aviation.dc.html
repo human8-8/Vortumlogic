@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#00E676; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; background:#0D0E12; color:#F4F6F9; font-family:'Plus Jakarta Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ color:#00c964; }
+  ::selection{ background:rgba(0,230,118,.30); color:var(--accent); }
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-track{ background:#0D0E12; }
+  ::-webkit-scrollbar-thumb{ background:#1A1D24; }
+  ::-webkit-scrollbar-thumb:hover{ background:#8A94A6; }
+  @keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes vlPing{ 75%,100%{transform:scale(2);opacity:0} }
+</style>
+</helmet>
+
+<div style="position:relative;background:#0D0E12;overflow:hidden;min-height:100vh;">
+
+  <!-- ============ NAVBAR ============ -->
+  <header data-navbar style="position:fixed;top:0;left:0;right:0;z-index:50;transition:padding .3s ease;border-bottom:1px solid #1A1D24;background:rgba(13,14,18,.80);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:24px;padding-bottom:24px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);display:flex;align-items:center;justify-content:space-between;">
+      <a href="Vortum Logic.dc.html" style="display:flex;align-items:center;gap:12px;cursor:pointer;color:#F4F6F9;">
+        <svg width="24" height="24" viewBox="0 0 86.4 85.8" xmlns="http://www.w3.org/2000/svg">
+          <polygon fill="var(--accent)" points="0,42 21.6,20.7 21.6,63.8 64.4,63.8 64.4,20.7 86.4,0 86.4,41.8 43.2,85.8" transform="translate(86.4,0) scale(-1,1)"></polygon>
+        </svg>
+        <span style="font-weight:600;font-size:18px;letter-spacing:-.02em;">Vortum Logic</span>
+      </a>
+
+      <nav style="display:flex;align-items:center;gap:32px;" data-desktop-nav>
+        <a href="Vortum Logic.dc.html#services" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">AI Solutions</a>
+        <a href="Vortum Logic.dc.html#development" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Custom Development</a>
+        <a href="Vortum Logic.dc.html#teams" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Dedicated Teams</a>
+        <a href="Vortum Logic.dc.html#framework" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Framework</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button onClick="{{ goContact }}" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" data-cta-desktop style="border:0;cursor:pointer;font-family:inherit;background:var(--accent);color:#0D0E12;padding:10px 24px;font-weight:600;font-size:14px;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Book a Call</button>
+        <button onClick="{{ toggleMenu }}" aria-label="Toggle menu" data-menu-btn style="display:none;align-items:center;justify-content:center;width:36px;height:36px;background:none;border:0;color:#8A94A6;cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:40;background:rgba(13,14,18,.95);backdrop-filter:blur(12px);display:flex;flex-direction:column;padding:96px 24px 0;">
+      <nav style="display:flex;flex-direction:column;">
+        <a href="Vortum Logic.dc.html#services" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">AI Solutions</a>
+        <a href="Vortum Logic.dc.html#development" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">Custom Development</a>
+        <a href="Vortum Logic.dc.html#teams" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">Dedicated Teams</a>
+        <a href="Vortum Logic.dc.html#framework" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">Framework</a>
+      </nav>
+      <button onClick="{{ goContact }}" style="margin-top:32px;width:100%;background:var(--accent);color:#0D0E12;border:0;padding:16px 24px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;">Book a Call</button>
+    </div>
+  </sc-if>
+
+  <main>
+  <!-- ============ 1. HERO ============ -->
+  <section style="position:relative;display:flex;align-items:center;justify-content:center;padding:180px 0 120px;overflow:hidden;background:#0D0E12;">
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:20;pointer-events:none;height:260px;"><canvas data-glow data-direction="up" data-variant="full" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;z-index:30;text-align:center;display:flex;flex-direction:column;align-items:center;">
+      <span style="opacity:0;animation:fadeUp .8s ease .2s forwards;display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono','SF Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.15em;color:#8A94A6;border:1px solid #1A1D24;padding:8px 16px;background:rgba(13,14,18,.60);backdrop-filter:blur(4px);">
+        <span style="position:relative;display:flex;height:8px;width:8px;flex-shrink:0;">
+          <span style="animation:vlPing 1s cubic-bezier(0,0,.2,1) infinite;position:absolute;display:inline-flex;height:100%;width:100%;border-radius:9999px;background:var(--accent);opacity:.75;"></span>
+          <span style="position:relative;display:inline-flex;border-radius:9999px;height:8px;width:8px;background:var(--accent);"></span>
+        </span>
+        // AI Solutions for Business Aviation &amp; VIP Travel
+      </span>
+      <h1 style="opacity:0;animation:fadeUp .9s cubic-bezier(.16,1,.3,1) .3s forwards;margin:32px 0 0;font-size:clamp(40px,6.5vw,72px);font-weight:700;letter-spacing:-.02em;line-height:1.1;max-width:1024px;">Your Client Won't Wait For Availability. Neither Should You.</h1>
+      <p style="opacity:0;animation:fadeUp .8s ease .5s forwards;margin:24px 0 0;font-size:clamp(18px,2vw,20px);color:#8A94A6;max-width:768px;line-height:1.6;">VIP charter and travel clients expect a quote in minutes, not hours — at 3am in one timezone as easily as 3pm in another. We build the AI layer that reads the request, pulls availability, and hands your broker a ready-to-send quote.</p>
+      <div style="opacity:0;animation:fadeUp .8s ease .7s forwards;margin-top:40px;">
+        <button onClick="{{ goContact }}" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" style="height:48px;padding:0 32px;font-family:inherit;font-weight:600;font-size:15px;background:var(--accent);color:#0D0E12;border:0;cursor:pointer;min-width:240px;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Book a Technical Audit</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. ANATOMY OF THE PAIN ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">01 / THE PROBLEM</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 32px;line-height:1.15;">A Request Doesn't Wait for Business Hours</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:0 0 24px;line-height:1.6;">A message arrives — WhatsApp, email, doesn't matter what time: <em style="color:#F4F6F9;font-style:italic;">"Need a jet from Teterboro to Miami tomorrow, 8am, 4 passengers, one dog."</em></p>
+        <p style="font-size:18px;color:#8A94A6;margin:0 0 32px;line-height:1.6;">From there, the clock starts:</p>
+        <ul style="list-style:none;padding:0;margin:0 0 32px;display:flex;flex-direction:column;gap:16px;">
+          <li style="display:flex;gap:16px;align-items:flex-start;"><span style="color:var(--accent);font-family:'Geist Mono',monospace;font-size:14px;line-height:1.6;flex-shrink:0;">→</span><span style="font-size:16px;color:#8A94A6;line-height:1.6;">The broker has to notice the message, often outside working hours.</span></li>
+          <li style="display:flex;gap:16px;align-items:flex-start;"><span style="color:var(--accent);font-family:'Geist Mono',monospace;font-size:14px;line-height:1.6;flex-shrink:0;">→</span><span style="font-size:16px;color:#8A94A6;line-height:1.6;">Log into Avinode, CharterPad, or another sourcing platform.</span></li>
+          <li style="display:flex;gap:16px;align-items:flex-start;"><span style="color:var(--accent);font-family:'Geist Mono',monospace;font-size:14px;line-height:1.6;flex-shrink:0;">→</span><span style="font-size:16px;color:#8A94A6;line-height:1.6;">Manually check aircraft availability and empty-leg options.</span></li>
+          <li style="display:flex;gap:16px;align-items:flex-start;"><span style="color:var(--accent);font-family:'Geist Mono',monospace;font-size:14px;line-height:1.6;flex-shrink:0;">→</span><span style="font-size:16px;color:#8A94A6;line-height:1.6;">Calculate margin and structure the quote.</span></li>
+          <li style="display:flex;gap:16px;align-items:flex-start;"><span style="color:var(--accent);font-family:'Geist Mono',monospace;font-size:14px;line-height:1.6;flex-shrink:0;">→</span><span style="font-size:16px;color:#8A94A6;line-height:1.6;">Format a proposal that looks professional enough to send to a VIP client.</span></li>
+        </ul>
+        <p style="font-size:18px;color:#F4F6F9;margin:0;line-height:1.6;">That's typically hours of manual work — during which a client with real urgency and real budget is often reaching out to more than one broker at once.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. WHAT WE BUILD ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">02 / THE SOLUTION</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 32px;line-height:1.15;">An AI Layer That Reads the Request and Drafts the Quote</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:0 0 48px;line-height:1.6;">Our agent sits on your incoming channels — WhatsApp, email, or both — and handles the first mile of every request:</p>
+      </div>
+      <div data-reveal style="display:flex;flex-direction:column;gap:0;max-width:860px;border-top:1px solid #1A1D24;">
+        <div style="display:flex;gap:24px;padding:28px 0;border-bottom:1px solid #1A1D24;"><span style="font-family:'Geist Mono',monospace;font-size:20px;color:var(--accent);flex-shrink:0;">01</span><div><h3 style="font-size:18px;font-weight:600;margin:0 0 8px;color:#F4F6F9;">Reads the message.</h3><p style="font-size:15px;color:#8A94A6;margin:0;line-height:1.6;">Extracts route, date, passenger count, and any special requirements automatically, regardless of how the request is phrased.</p></div></div>
+        <div style="display:flex;gap:24px;padding:28px 0;border-bottom:1px solid #1A1D24;"><span style="font-family:'Geist Mono',monospace;font-size:20px;color:var(--accent);flex-shrink:0;">02</span><div><h3 style="font-size:18px;font-weight:600;margin:0 0 8px;color:#F4F6F9;">Pulls live options.</h3><p style="font-size:15px;color:#8A94A6;margin:0;line-height:1.6;">Connects into your existing sourcing systems to check availability and empty-leg opportunities — no platform switch, no new tool for your team to learn.</p></div></div>
+        <div style="display:flex;gap:24px;padding:28px 0;border-bottom:1px solid #1A1D24;"><span style="font-family:'Geist Mono',monospace;font-size:20px;color:var(--accent);flex-shrink:0;">03</span><div><h3 style="font-size:18px;font-weight:600;margin:0 0 8px;color:#F4F6F9;">Drafts the quote.</h3><p style="font-size:15px;color:#8A94A6;margin:0;line-height:1.6;">Structures pricing based on your margin rules and prepares a client-ready proposal.</p></div></div>
+        <div style="display:flex;gap:24px;padding:28px 0;border-bottom:1px solid #1A1D24;"><span style="font-family:'Geist Mono',monospace;font-size:20px;color:var(--accent);flex-shrink:0;">04</span><div><h3 style="font-size:18px;font-weight:600;margin:0 0 8px;color:#F4F6F9;">Hands it to you for one click.</h3><p style="font-size:15px;color:#8A94A6;margin:0;line-height:1.6;">The broker reviews and sends — the agent doesn't quote a client without your sign-off.</p></div></div>
+      </div>
+
+      <div data-reveal style="max-width:860px;margin-top:48px;">
+        <div style="border:1px solid #1A1D24;background:rgba(26,29,36,.30);padding:28px;">
+          <p style="font-family:'Geist Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#8A94A6;font-style:italic;margin:0 0 20px;line-height:1.6;">how the handoff looks in practice</p>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <span style="font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#8A94A6;">Client (WhatsApp, 2:14am)</span>
+              <div style="align-self:flex-start;max-width:88%;background:#1A1D24;color:#F4F6F9;padding:14px 18px;font-size:15px;line-height:1.5;">"Need a jet from Teterboro to Miami tomorrow, 8am, 4 pax, one dog."</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
+              <span style="font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);">Agent → Broker</span>
+              <div style="align-self:flex-end;max-width:88%;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.30);color:#F4F6F9;padding:14px 18px;font-size:15px;line-height:1.5;">"Match found — Phenom 300 available, quote drafted. Send to client?"</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:18px;color:#F4F6F9;margin:32px 0 0;line-height:1.6;">You stay the decision-maker on every quote. The agent removes the hour of manual lookup between the request and your decision — not the decision itself.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. WHY SPEED MATTERS ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">03 / WHY SPEED WINS</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 32px;line-height:1.15;">In This Market, the First Reply Usually Wins the Deal</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:0 0 24px;line-height:1.6;">Charter and VIP travel clients typically reach out to more than one broker at a time, and the broker who responds first — with a credible, well-structured quote — has a clear edge before price even enters the conversation. Every hour spent finding availability manually is an hour a competing broker can use to close the deal instead.</p>
+        <p style="font-size:18px;color:#8A94A6;margin:0;line-height:1.6;">Commissions in this segment are also structured in a way that makes even one additional closed deal a significant outcome for a brokerage — which is part of why response speed carries outsized weight here compared to most industries.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. HOW WE WORK ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal>
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">04 / HOW WE WORK</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 64px;line-height:1.15;">From Audit to Live Agent — Without Disrupting Your Stack</h2>
+        <div data-fw-grid style="display:grid;grid-template-columns:1fr;border-left:1px solid #1A1D24;border-right:1px solid #1A1D24;">
+          <div onMouseEnter="{{ enterFw }}" onMouseLeave="{{ leaveFw }}" style="padding:32px;border-top:1px solid #1A1D24;position:relative;transition:background .2s;overflow:hidden;" data-fw-cell>
+            <div data-bar style="position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;"></div>
+            <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:36px;color:#1A1D24;margin-bottom:24px;display:block;transition:color .2s;">01</span>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 16px;color:#F4F6F9;">Strategic Alignment &amp; Discovery</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We map your current request flow — which channels you use, how you source availability, how you structure margin — before writing a single line of code.</p>
+          </div>
+          <div onMouseEnter="{{ enterFw }}" onMouseLeave="{{ leaveFw }}" style="padding:32px;border-top:1px solid #1A1D24;position:relative;transition:background .2s;overflow:hidden;" data-fw-cell>
+            <div data-bar style="position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;"></div>
+            <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:36px;color:#1A1D24;margin-bottom:24px;display:block;transition:color .2s;">02</span>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 16px;color:#F4F6F9;">Autonomous Execution &amp; Integration</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We connect the agent to your existing sourcing systems and communication channels. No platform migration, no retraining your team on new software.</p>
+          </div>
+          <div onMouseEnter="{{ enterFw }}" onMouseLeave="{{ leaveFw }}" style="padding:32px;border-top:1px solid #1A1D24;position:relative;transition:background .2s;overflow:hidden;" data-fw-cell>
+            <div data-bar style="position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;"></div>
+            <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:36px;color:#1A1D24;margin-bottom:24px;display:block;transition:color .2s;">03</span>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 16px;color:#F4F6F9;">Continuous Optimization</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Post-launch, we refine how the agent parses requests and structures quotes based on real usage — so accuracy improves as volume grows.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. TRUST ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">05 / WHY US</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 32px;line-height:1.15;">Why We're Building for This Industry</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:0;line-height:1.6;">We chose business aviation and VIP travel brokerage deliberately — it's a market defined by high-value, time-sensitive decisions, where a faster, better-structured response has a direct and measurable impact on outcomes. That's exactly the kind of problem autonomous AI agents are built to solve.</p>
+        <!-- TEMPORARY PLACEHOLDER — swap out once first pilot is live -->
+        <div data-placeholder="case-study" style="display:none;border:1px dashed #1A1D24;background:rgba(26,29,36,.20);padding:24px;gap:16px;align-items:flex-start;">
+          <span style="font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);border:1px solid rgba(0,230,118,.30);padding:4px 8px;flex-shrink:0;">Placeholder</span>
+          <p style="font-size:15px;color:#8A94A6;margin:0;line-height:1.6;font-style:italic;">Replace once first pilot is live: "Currently running a pilot with a [type of] brokerage — early results available on request."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. CTA ============ -->
+  <section id="contact" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;overflow:hidden;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal style="margin-bottom:64px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">06 / GET STARTED</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 16px;line-height:1.15;">Map Out Your Agent</h2>
+        <p style="font-size:18px;color:#8A94A6;max-width:640px;margin:0;line-height:1.6;">A 15-minute technical audit — we look at your current request flow and show you exactly where an agent fits.</p>
+      </div>
+
+      <div style="border:1px solid #1A1D24;">
+        <div style="padding:clamp(32px,5vw,48px);border-bottom:1px solid #1A1D24;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 150% 33% at 50% 0%, rgba(0,230,119,.10) 0%, rgba(0,230,119,0) 100%);"></div>
+          <sc-if value="{{ isSubmitted }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:48px 0;position:relative;">
+              <div style="width:64px;height:64px;border-radius:9999px;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);color:var(--accent);margin-bottom:16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <h3 style="font-size:24px;font-weight:700;margin:0;">Request Received</h3>
+              <p style="color:#8A94A6;margin:0;">Your request has been received. Our team will respond within 24 hours.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <h3 style="font-size:20px;font-weight:600;margin:0 0 32px;">Request a Technical Audit for Your Brokerage</h3>
+              <form onSubmit="{{ onSubmit }}" style="display:grid;grid-template-columns:1fr;gap:32px;position:relative;" data-form>
+                <div>
+                  <input type="text" name="company" required placeholder="Company Name" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                </div>
+                <div>
+                  <input type="text" name="role" required placeholder="Role" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                </div>
+                <div style="position:relative;">
+                  <input type="email" name="email" required placeholder="Email" onInput="{{ onEmailInput }}" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                  <sc-if value="{{ hasEmailError }}" hint-placeholder-val="{{ false }}">
+                    <span style="color:#ef4444;font-size:12px;position:absolute;bottom:-20px;left:0;">{{ emailError }}</span>
+                  </sc-if>
+                </div>
+                <div>
+                  <select name="channels" required style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#8A94A6;font-family:inherit;font-size:15px;outline:none;cursor:pointer;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                    <option value="" disabled selected style="background:#0D0E12;color:#8A94A6;">Which channels do you use for incoming requests?</option>
+                    <option value="whatsapp" style="background:#0D0E12;color:#F4F6F9;">WhatsApp</option>
+                    <option value="email" style="background:#0D0E12;color:#F4F6F9;">Email</option>
+                    <option value="both" style="background:#0D0E12;color:#F4F6F9;">Both</option>
+                    <option value="other" style="background:#0D0E12;color:#F4F6F9;">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <button type="submit" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" style="width:100%;background:var(--accent);color:#0D0E12;font-family:inherit;font-weight:600;font-size:15px;padding:16px;border:0;cursor:pointer;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Request Technical Audit</button>
+                </div>
+              </form>
+            </div>
+          </sc-if>
+        </div>
+        <div style="padding:clamp(32px,5vw,48px);display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:32px;" data-calendly-row>
+          <div style="position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;right:0;width:128px;height:128px;background:rgba(0,230,118,.05);filter:blur(48px);border-radius:9999px;"></div>
+            <p style="font-family:'Geist Mono',monospace;font-size:12px;color:#8A94A6;text-transform:uppercase;letter-spacing:.15em;margin:0 0 8px;">Prefer a direct conversation?</p>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 8px;">Skip the back-and-forth.</h3>
+            <p style="color:#8A94A6;font-size:14px;line-height:1.6;max-width:512px;margin:0;">Book a 15-minute technical audit directly with our engineering architects.</p>
+          </div>
+          <a href="https://calendly.com/vortumlogic/30min" target="_blank" rel="noreferrer" onMouseEnter="{{ enterOutline }}" onMouseLeave="{{ leaveOutline }}" style="flex-shrink:0;display:inline-block;border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:16px 40px;white-space:nowrap;transition:background .2s;">Schedule via Calendly</a>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:20;pointer-events:none;height:260px;"><canvas data-glow data-direction="up" data-variant="full" style="width:100%;height:100%;display:block;"></canvas></div>
+  </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#0D0E12;border-top:1px solid #1A1D24;padding:64px 0 32px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-footer-grid style="display:grid;grid-template-columns:1fr;gap:48px;margin-bottom:64px;">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <a href="Vortum Logic.dc.html" style="display:flex;align-items:center;gap:12px;color:#F4F6F9;">
+            <svg width="24" height="24" viewBox="0 0 86.4 85.8" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1);">
+              <polygon fill="var(--accent)" points="0,42 21.6,20.7 21.6,63.8 64.4,63.8 64.4,20.7 86.4,0 86.4,41.8 43.2,85.8"></polygon>
+            </svg>
+            <span style="font-weight:600;font-size:18px;letter-spacing:-.02em;">Vortum Logic</span>
+          </a>
+          <p style="font-size:14px;color:#8A94A6;max-width:384px;margin:0;">Architecting next-generation digital ecosystems and autonomous AI infrastructure.</p>
+        </div>
+        <div>
+          <h4 style="font-family:'Geist Mono',monospace;font-size:14px;text-transform:uppercase;color:#F4F6F9;margin:0 0 24px;">Capabilities</h4>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+            <li><a href="Vortum Logic.dc.html#services" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">AI Solutions</a></li>
+            <li><a href="Vortum Logic.dc.html#development" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">Custom Development</a></li>
+            <li><a href="Vortum Logic.dc.html#teams" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">Dedicated Teams</a></li>
+            <li><a href="Vortum Logic.dc.html#framework" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">Framework</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-family:'Geist Mono',monospace;font-size:14px;text-transform:uppercase;color:#F4F6F9;margin:0 0 24px;">Contact</h4>
+          <a href="mailto:partner@vortumlogic.com" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;display:block;margin-bottom:24px;transition:color .2s;">partner@vortumlogic.com</a>
+          <div style="display:flex;gap:16px;">
+            <a href="#" onMouseEnter="{{ enterSocial }}" onMouseLeave="{{ leaveSocial }}" aria-label="LinkedIn" style="width:40px;height:40px;border:1px solid #1A1D24;display:flex;align-items:center;justify-content:center;color:#8A94A6;transition:all .2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1A1D24;padding-top:32px;">
+        <p style="font-size:12px;color:#8A94A6;text-align:center;margin:0;">© 2026 Vortum Logic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, isSubmitted: false, emailError: "" };
+
+  componentDidMount() {
+    this.accent = "#00E676";
+    this.initResponsive();
+    this.initScroll();
+    this.initReveal();
+    this.initGlows();
+  }
+  componentWillUnmount() {
+    if (this._glowResize) window.removeEventListener("resize", this._glowResize);
+    if (this._scroll) window.removeEventListener("scroll", this._scroll);
+    if (this._resp) window.removeEventListener("resize", this._resp);
+  }
+
+  initResponsive() {
+    const apply = () => {
+      const wide = window.innerWidth >= 1024;
+      const md = window.innerWidth >= 768;
+      const dnav = document.querySelector("[data-desktop-nav]");
+      const cta = document.querySelector("[data-cta-desktop]");
+      const mbtn = document.querySelector("[data-menu-btn]");
+      if (dnav) dnav.style.display = md ? "flex" : "none";
+      if (cta) cta.style.display = md ? "block" : "none";
+      if (mbtn) mbtn.style.display = md ? "none" : "flex";
+      if (md && this.state.menuOpen) this.setState({ menuOpen: false });
+      document.querySelectorAll("[data-fw-grid]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-footer-grid]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-calendly-row]").forEach(el => { el.style.flexDirection = wide ? "row" : "column"; el.style.alignItems = wide ? "center" : "flex-start"; });
+      this.applyFwBorders(md);
+    };
+    apply();
+    this._resp = apply;
+    window.addEventListener("resize", apply);
+  }
+  applyFwBorders(md) {
+    const cells = document.querySelectorAll("[data-fw-cell]");
+    cells.forEach((c, i) => {
+      c.style.borderTop = "1px solid #1A1D24";
+      c.style.borderRight = md && i < cells.length - 1 ? "1px solid #1A1D24" : "none";
+    });
+  }
+  initScroll() {
+    const header = document.querySelector("[data-navbar]");
+    const onScroll = () => {
+      if (!header) return;
+      const s = window.scrollY > 20;
+      header.style.paddingTop = s ? "16px" : "24px";
+      header.style.paddingBottom = s ? "16px" : "24px";
+    };
+    onScroll();
+    this._scroll = onScroll;
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+  initReveal() {
+    const els = document.querySelectorAll("[data-reveal]");
+    els.forEach(el => { el.style.opacity = "0"; el.style.transform = "translateY(15px)"; el.style.transition = "opacity .6s ease, transform .6s ease"; });
+    if (!("IntersectionObserver" in window)) { els.forEach(el => { el.style.opacity = "1"; el.style.transform = "none"; }); return; }
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach(en => { if (en.isIntersecting) { en.target.style.opacity = "1"; en.target.style.transform = "none"; io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -80px 0px" });
+    els.forEach(el => io.observe(el));
+  }
+
+  drawGlow(canvas, direction, variant) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    const W = canvas.width, H = canvas.height;
+    const img = ctx.createImageData(W, H); const data = img.data;
+    const cx = W / 2; const s = (v) => v * dpr;
+    for (let y = 0; y < H; y++) {
+      const dy = direction === "up" ? H - y : y;
+      const f = Math.max(0, 1 - dy / H); const fade = f * f * (3 - 2 * f);
+      if (variant === "ambient") {
+        const dyAmb = Math.pow(dy / (H * 0.55), 2);
+        for (let x = 0; x < W; x++) {
+          const dx = x - cx;
+          const g = 0.1 * Math.exp(-(Math.pow(dx / (W * 0.75), 2) + dyAmb)) * fade;
+          if (g <= 0.0015) continue;
+          const a = Math.min(1, g); const i = (y * W + x) * 4;
+          data[i] = 0; data[i + 1] = 230; data[i + 2] = 119; data[i + 3] = Math.max(0, Math.min(255, a * 255));
+        }
+        continue;
+      }
+      const dy14 = Math.pow(dy / s(14), 2), dy48 = Math.pow(dy / s(48), 2), dy130 = Math.pow(dy / s(130), 2), dyLine = Math.pow(dy / s(2.2), 2);
+      for (let x = 0; x < W; x++) {
+        const dx = x - cx;
+        const g1 = 0.32 * Math.exp(-(Math.pow(dx / (W * 0.22), 2) + dy14));
+        const g2 = 0.16 * Math.exp(-(Math.pow(dx / (W * 0.34), 2) + dy48));
+        const g3 = 0.08 * Math.exp(-(Math.pow(dx / (W * 0.5), 2) + dy130));
+        const wl = 0.45 * Math.exp(-(Math.pow(dx / (W * 0.26), 2) + dyLine));
+        const g = (g1 + g2 + g3) * fade;
+        let a = g + wl * fade;
+        if (a <= 0.0015) continue; if (a > 1) a = 1;
+        const r = (255 * wl) / a, gc = (230 * g + 255 * wl) / a, b = (119 * g + 255 * wl) / a;
+        const i = (y * W + x) * 4;
+        data[i] = Math.max(0, Math.min(255, r)); data[i + 1] = Math.max(0, Math.min(255, gc)); data[i + 2] = Math.max(0, Math.min(255, b)); data[i + 3] = Math.max(0, Math.min(255, a * 255));
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+  initGlows() {
+    const redraw = () => document.querySelectorAll("canvas[data-glow]").forEach(c => this.drawGlow(c, c.getAttribute("data-direction") || "up", c.getAttribute("data-variant") || "full"));
+    redraw();
+    setTimeout(redraw, 120);
+    this._glowResize = redraw;
+    window.addEventListener("resize", redraw);
+  }
+
+  go(id) {
+    this.setState({ menuOpen: false });
+    const el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 40, behavior: "smooth" });
+  }
+  onSubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email") || "");
+    const free = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"];
+    if (free.includes(email.split("@")[1])) { this.setState({ emailError: "Please use your corporate email address." }); return; }
+    this.setState({ isSubmitted: true });
+  };
+  onEmailInput = () => { if (this.state.emailError) this.setState({ emailError: "" }); };
+  toggleMenu = () => this.setState(s => ({ menuOpen: !s.menuOpen }));
+
+  enterLink = (e) => { e.currentTarget.style.color = this.accent; };
+  leaveLink = (e) => { e.currentTarget.style.color = "#8A94A6"; };
+  enterPrimary = (e) => { e.currentTarget.style.boxShadow = "rgb(42 240 124 / 55%) 0px 0px 52px 0px, rgba(0,255,178,0.22) 0px 0px 0px 6px"; e.currentTarget.style.filter = "brightness(.92)"; };
+  leavePrimary = (e) => { e.currentTarget.style.boxShadow = "rgb(42 240 124 / 32%) 0px 0px 34px 0px, rgba(0,255,178,0.1) 0px 0px 0px 4px"; e.currentTarget.style.filter = "none"; };
+  enterOutline = (e) => { e.currentTarget.style.background = "rgba(0,230,118,.10)"; };
+  leaveOutline = (e) => { e.currentTarget.style.background = "transparent"; };
+  enterFw = (e) => {
+    e.currentTarget.style.background = "rgba(0,230,118,.05)";
+    const bar = e.currentTarget.querySelector("[data-bar]"); if (bar) bar.style.transform = "scaleX(1)";
+    e.currentTarget.querySelectorAll("[data-accent]").forEach(el => el.style.color = this.accent);
+  };
+  leaveFw = (e) => {
+    e.currentTarget.style.background = "transparent";
+    const bar = e.currentTarget.querySelector("[data-bar]"); if (bar) bar.style.transform = "scaleX(0)";
+    e.currentTarget.querySelectorAll("[data-accent]").forEach(el => el.style.color = el.getAttribute("data-accent"));
+  };
+  enterSocial = (e) => { e.currentTarget.style.color = this.accent; e.currentTarget.style.borderColor = this.accent; };
+  leaveSocial = (e) => { e.currentTarget.style.color = "#8A94A6"; e.currentTarget.style.borderColor = "#1A1D24"; };
+
+  renderVals() {
+    return {
+      menuOpen: this.state.menuOpen,
+      isSubmitted: this.state.isSubmitted,
+      notSubmitted: !this.state.isSubmitted,
+      emailError: this.state.emailError,
+      hasEmailError: !!this.state.emailError,
+      goContact: () => this.go("contact"),
+      toggleMenu: this.toggleMenu,
+      onSubmit: this.onSubmit,
+      onEmailInput: this.onEmailInput,
+      enterLink: this.enterLink, leaveLink: this.leaveLink,
+      enterPrimary: this.enterPrimary, leavePrimary: this.leavePrimary,
+      enterOutline: this.enterOutline, leaveOutline: this.leaveOutline,
+      enterFw: this.enterFw, leaveFw: this.leaveFw,
+      enterSocial: this.enterSocial, leaveSocial: this.leaveSocial
+    };
+  }
+}
+</script>
+</body>
+</html>

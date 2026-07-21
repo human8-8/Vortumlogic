@@ -1,0 +1,391 @@
+:root {
+  --accent: #00E676;
+  --accent-2: #00c964;
+  --bg: #0D0E12;
+  --text: #F4F6F9;
+  --muted: #8A94A6;
+  --border: #1A1D24;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-2);
+}
+
+::selection {
+  background: rgba(0, 230, 118, .30);
+  color: var(--accent);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+button {
+  font-family: inherit;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes vlPing {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+@keyframes vlNodePulse {
+  0% { opacity: .3; r: 3px; }
+  100% { opacity: 1; r: 6px; }
+}
+@keyframes vlDash {
+  to { stroke-dashoffset: -200; }
+}
+@keyframes vlCubeDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes vlSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes vlDotPulse {
+  0% { r: 3px; opacity: .6; }
+  100% { r: 6px; opacity: 1; }
+}
+@keyframes vlMapDash {
+  to { stroke-dashoffset: -110; }
+}
+@keyframes vlBorderPulse {
+  0%, 100% { opacity: .35; }
+  50% { opacity: 1; }
+}
+@keyframes vlOriginPulse {
+  0% { r: 4px; opacity: 1; }
+  100% { r: 9px; opacity: .2; }
+}
+@keyframes vlScan {
+  0% { transform: translateY(0); opacity: 0; }
+  8% { opacity: .9; }
+  58% { transform: translateY(384px); opacity: .9; }
+  66% { transform: translateY(384px); opacity: 0; }
+  100% { transform: translateY(384px); opacity: 0; }
+}
+
+.vl-fadeup {
+  opacity: 0;
+  animation: fadeUp .8s ease forwards;
+}
+
+/* ---------- reveal-on-scroll ---------- */
+.vl-reveal {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.vl-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- hover utilities (replace prototype's JS enter/leave handlers) ---------- */
+.vl-link {
+  color: var(--muted);
+  transition: color .2s;
+}
+.vl-link:hover {
+  color: var(--accent);
+}
+
+.vl-btn-primary {
+  border: 0;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  box-shadow: rgba(42, 240, 124, .32) 0 0 34px 0, rgba(0, 255, 178, .10) 0 0 0 4px;
+  transition: box-shadow .25s ease, filter .2s;
+}
+.vl-btn-primary:hover {
+  box-shadow: rgba(42, 240, 124, .55) 0 0 52px 0, rgba(0, 255, 178, .22) 0 0 0 6px;
+  filter: brightness(.92);
+}
+
+.vl-btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  cursor: pointer;
+  transition: background .2s;
+}
+.vl-btn-outline:hover {
+  background: rgba(0, 230, 118, .10);
+}
+
+.vl-group:hover .vl-accent-on-hover {
+  color: var(--accent) !important;
+}
+
+.vl-fw-cell {
+  transition: background .2s;
+}
+.vl-fw-cell:hover {
+  background: rgba(0, 230, 118, .05);
+}
+.vl-fw-cell:hover .vl-fw-bar {
+  transform: scaleX(1);
+}
+.vl-fw-cell:hover .vl-accent-on-hover {
+  color: var(--accent);
+}
+.vl-fw-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s;
+}
+
+.vl-res-card {
+  transition: border-color .2s;
+}
+.vl-res-card:hover {
+  border-color: rgba(0, 230, 118, .5);
+}
+.vl-res-card:hover .vl-iconbox {
+  border-color: rgba(0, 230, 118, .5);
+  background: rgba(0, 230, 118, .10);
+}
+.vl-res-card:hover .vl-icon {
+  stroke: var(--accent);
+}
+.vl-iconbox {
+  transition: all .2s;
+}
+.vl-icon {
+  transition: stroke .2s;
+}
+
+.vl-social {
+  color: var(--muted);
+  border-color: var(--border);
+  transition: all .2s;
+}
+.vl-social:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.vl-industry {
+  color: var(--muted);
+  transition: border-color .2s, color .2s;
+}
+.vl-industry:hover {
+  border-color: rgba(0, 230, 118, .5);
+  color: var(--accent);
+}
+.vl-industry .vl-arrow {
+  opacity: 0;
+  transition: opacity .2s;
+}
+.vl-industry:hover .vl-arrow {
+  opacity: 1;
+}
+
+/* ---------- responsive layout utilities ---------- */
+.vl-desktop-nav {
+  display: none;
+  align-items: center;
+  gap: 32px;
+}
+.vl-cta-desktop {
+  display: none;
+}
+.vl-menu-btn {
+  display: flex;
+}
+@media (min-width: 768px) {
+  .vl-desktop-nav { display: flex; }
+  .vl-cta-desktop { display: block; }
+  .vl-menu-btn { display: none; }
+}
+
+.vl-grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .vl-grid2 { grid-template-columns: 1fr 1fr; gap: 0; align-items: center; }
+}
+
+.vl-col-text {
+  padding: 0;
+}
+@media (min-width: 1024px) {
+  .vl-col-text.vl-col-bordered { border-right: 1px solid var(--border); padding-right: 32px; }
+  .vl-col-text.vl-col-padded { padding-left: 32px; }
+}
+
+.vl-col-visual {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 400px;
+}
+@media (min-width: 1024px) {
+  .vl-col-visual.vl-col-padded { padding-left: 32px; }
+  .vl-col-visual.vl-col-bordered { border-right: 1px solid var(--border); padding-right: 32px; }
+}
+
+.vl-order-first { order: 2; }
+.vl-order-second { order: 1; }
+@media (min-width: 1024px) {
+  .vl-order-first { order: 1; }
+  .vl-order-second { order: 2; }
+}
+
+.vl-fw-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+.vl-fw-cell {
+  border-top: 1px solid var(--border);
+}
+@media (min-width: 768px) {
+  .vl-fw-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .vl-fw-cell:not(:last-child) { border-right: 1px solid var(--border); }
+}
+
+.vl-cols2, .vl-cols3, .vl-footer-grid, .vl-cap-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .vl-cols2 { grid-template-columns: 1fr 1fr; }
+  .vl-cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  .vl-cap-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .vl-footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 48px; }
+}
+
+.vl-mitp-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .vl-mitp-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 1024px) {
+  .vl-mitp-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.vl-industry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .vl-industry-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (min-width: 1024px) {
+  .vl-industry-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+}
+
+.vl-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .vl-hero-grid { grid-template-columns: 1.05fr .95fr; }
+}
+
+.vl-calendly-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+}
+@media (min-width: 1024px) {
+  .vl-calendly-row { flex-direction: row; align-items: center; }
+}
+
+.vl-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  position: relative;
+}
+.vl-form-grid.vl-form-2col {
+  gap: 32px 48px;
+}
+@media (min-width: 1024px) {
+  .vl-form-grid.vl-form-2col { grid-template-columns: 1fr 1fr; }
+  .vl-form-grid.vl-form-2col .vl-form-full { grid-column: 1 / -1; }
+}
+
+.vl-field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color .2s;
+}
+.vl-field:focus {
+  border-color: var(--accent);
+}
+textarea.vl-field {
+  resize: none;
+}
+select.vl-field {
+  color: var(--muted);
+  cursor: pointer;
+}
+select.vl-field option {
+  background: var(--bg);
+  color: var(--text);
+}
+select.vl-field option[value=""] {
+  color: var(--muted);
+}

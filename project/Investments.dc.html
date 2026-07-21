@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#00E676; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; background:#0D0E12; color:#F4F6F9; font-family:'Plus Jakarta Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ color:#00c964; }
+  ::selection{ background:rgba(0,230,118,.30); color:var(--accent); }
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-track{ background:#0D0E12; }
+  ::-webkit-scrollbar-thumb{ background:#1A1D24; }
+  ::-webkit-scrollbar-thumb:hover{ background:#8A94A6; }
+  @keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes vlPing{ 75%,100%{transform:scale(2);opacity:0} }
+  @keyframes vlMapDash{ to{stroke-dashoffset:-110} }
+  @keyframes vlDotPulse{ 0%{r:3px;opacity:.6} 100%{r:6px;opacity:1} }
+  @keyframes vlBorderPulse{ 0%,100%{opacity:.35} 50%{opacity:1} }
+  @keyframes vlOriginPulse{ 0%{r:4px;opacity:1} 100%{r:9px;opacity:.2} }
+  @keyframes vlScan{ 0%{transform:translateY(0);opacity:0} 8%{opacity:.9} 58%{transform:translateY(384px);opacity:.9} 66%{transform:translateY(384px);opacity:0} 100%{transform:translateY(384px);opacity:0} }
+</style>
+</helmet>
+
+<div style="position:relative;background:#0D0E12;overflow:hidden;min-height:100vh;">
+
+  <!-- ============ NAVBAR ============ -->
+  <header data-navbar style="position:fixed;top:0;left:0;right:0;z-index:50;transition:padding .3s ease;border-bottom:1px solid #1A1D24;background:rgba(13,14,18,.80);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:24px;padding-bottom:24px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);display:flex;align-items:center;justify-content:space-between;">
+      <a href="Vortum Logic.dc.html" style="display:flex;align-items:center;gap:12px;cursor:pointer;color:#F4F6F9;">
+        <svg width="24" height="24" viewBox="0 0 86.4 85.8" xmlns="http://www.w3.org/2000/svg">
+          <polygon fill="var(--accent)" points="0,42 21.6,20.7 21.6,63.8 64.4,63.8 64.4,20.7 86.4,0 86.4,41.8 43.2,85.8" transform="translate(86.4,0) scale(-1,1)"></polygon>
+        </svg>
+        <span style="font-weight:600;font-size:18px;letter-spacing:-.02em;">Vortum Logic</span>
+      </a>
+      <nav style="display:flex;align-items:center;gap:32px;" data-desktop-nav>
+        <a href="AI Solutions.dc.html" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">AI Solutions</a>
+        <a href="Vortum Logic.dc.html#development" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Custom Development</a>
+        <a href="Vortum Logic.dc.html#teams" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Dedicated Teams</a>
+        <a href="Vortum Logic.dc.html#framework" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Framework</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button onClick="{{ goContact }}" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" data-cta-desktop style="border:0;cursor:pointer;font-family:inherit;background:var(--accent);color:#0D0E12;padding:10px 24px;font-weight:600;font-size:14px;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Book a Call</button>
+        <button onClick="{{ toggleMenu }}" aria-label="Toggle menu" data-menu-btn style="display:none;align-items:center;justify-content:center;width:36px;height:36px;background:none;border:0;color:#8A94A6;cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:40;background:rgba(13,14,18,.95);backdrop-filter:blur(12px);display:flex;flex-direction:column;padding:96px 24px 0;">
+      <nav style="display:flex;flex-direction:column;">
+        <a href="AI Solutions.dc.html" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">AI Solutions</a>
+        <a href="Vortum Logic.dc.html#development" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">Custom Development</a>
+        <a href="Vortum Logic.dc.html#teams" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">Dedicated Teams</a>
+        <a href="Vortum Logic.dc.html#framework" style="font-size:18px;font-weight:500;color:#8A94A6;border-bottom:1px solid #1A1D24;padding:16px 0;">Framework</a>
+      </nav>
+      <button onClick="{{ goContact }}" style="margin-top:32px;width:100%;background:var(--accent);color:#0D0E12;border:0;padding:16px 24px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;">Book a Call</button>
+    </div>
+  </sc-if>
+
+  <main>
+  <!-- ============ 1. HERO ============ -->
+  <section style="position:relative;padding:160px 0 110px;overflow:hidden;background:#0D0E12;">
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:20;pointer-events:none;height:260px;"><canvas data-glow data-direction="up" data-variant="full" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;z-index:30;">
+      <div data-hero-grid style="display:grid;grid-template-columns:1fr;gap:48px;align-items:center;">
+        <div>
+          <span style="opacity:0;animation:fadeUp .8s ease .2s forwards;display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono','SF Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.15em;color:#8A94A6;border:1px solid #1A1D24;padding:8px 16px;background:rgba(13,14,18,.60);backdrop-filter:blur(4px);">
+            <span style="position:relative;display:flex;height:8px;width:8px;flex-shrink:0;">
+              <span style="animation:vlPing 1s cubic-bezier(0,0,.2,1) infinite;position:absolute;display:inline-flex;height:100%;width:100%;border-radius:9999px;background:var(--accent);opacity:.75;"></span>
+              <span style="position:relative;display:inline-flex;border-radius:9999px;height:8px;width:8px;background:var(--accent);"></span>
+            </span>
+            // Strategic IT Investments · Moldova · Vortum Logic
+          </span>
+          <h1 style="opacity:0;animation:fadeUp .9s cubic-bezier(.16,1,.3,1) .3s forwards;margin:32px 0 0;font-size:clamp(36px,4.8vw,60px);font-weight:700;letter-spacing:-.02em;line-height:1.1;">Strategic IT Investments in Eastern Europe: The Moldova Advantage</h1>
+          <p style="opacity:0;animation:fadeUp .8s ease .5s forwards;margin:24px 0 0;font-size:clamp(17px,1.6vw,19px);color:#8A94A6;max-width:600px;line-height:1.6;">Maximize your ROI with Europe's most favorable IT tax regime (7% flat rate), an elite engineering talent pool, and Vortum Logic as your trusted local partner.</p>
+          <div style="opacity:0;animation:fadeUp .8s ease .7s forwards;margin-top:40px;display:flex;flex-wrap:wrap;gap:16px;">
+            <button onClick="{{ goContact }}" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" style="height:48px;padding:0 32px;font-family:inherit;font-weight:600;font-size:15px;background:var(--accent);color:#0D0E12;border:0;cursor:pointer;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Book a Strategic Consultation</button>
+            <button disabled title="Coming soon" style="height:48px;padding:0 28px;font-family:inherit;font-weight:600;font-size:15px;background:transparent;border:1px solid #1A1D24;color:#5b6472;cursor:not-allowed;display:inline-flex;align-items:center;gap:10px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download Investment Deck
+              <span style="font-family:'Geist Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;border:1px solid #1A1D24;padding:2px 6px;color:#5b6472;">Soon</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Moldova animated map -->
+        <div style="display:flex;align-items:center;justify-content:center;min-height:420px;opacity:0;animation:fadeUp 1s ease .5s forwards;">
+          <svg width="100%" height="100%" viewBox="0 0 460 500" style="width:100%;height:auto;max-width:540px;overflow:visible;" aria-label="Moldova as origin of engineering talent flowing to global hubs">
+            <defs>
+              <filter id="mglow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+              <clipPath id="mclip"><path d="M81.851,112.125L102.523,92.869L160.467,80L224.362,120.74L260.382,125.594L299.533,160.575L293.269,204.319L324.903,225.433L337.432,278.903L367.813,311.172L361.862,330.032L378.149,342.861L354.972,352.255L303.605,348.413L295.148,331.102L276.982,341.152L283.246,363.765L259.442,403.69L244.095,446.544L222.17,460L206.509,403.055L215.905,349.481L213.087,293.981L162.973,217.822L135.097,163.427L108.16,124.933Z"></path></clipPath>
+            </defs>
+
+            <!-- radiating connection lines (origin -> hubs) -->
+            <g>
+              <path d="M277.03,268.44 L95,58" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L45,250" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L415,150" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L410,420" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L95,58" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#mglow)" style="animation:vlMapDash 3s linear infinite;animation-delay:0s;"></path>
+              <path d="M277.03,268.44 L45,250" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#mglow)" style="animation:vlMapDash 3s linear infinite;animation-delay:-.8s;"></path>
+              <path d="M277.03,268.44 L415,150" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#mglow)" style="animation:vlMapDash 3s linear infinite;animation-delay:-1.6s;"></path>
+              <path d="M277.03,268.44 L410,420" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#mglow)" style="animation:vlMapDash 3s linear infinite;animation-delay:-2.4s;"></path>
+            </g>
+
+            <!-- Moldova border: faint base + breathing neon glow -->
+            <path d="M81.851,112.125L102.523,92.869L160.467,80L224.362,120.74L260.382,125.594L299.533,160.575L293.269,204.319L324.903,225.433L337.432,278.903L367.813,311.172L361.862,330.032L378.149,342.861L354.972,352.255L303.605,348.413L295.148,331.102L276.982,341.152L283.246,363.765L259.442,403.69L244.095,446.544L222.17,460L206.509,403.055L215.905,349.481L213.087,293.981L162.973,217.822L135.097,163.427L108.16,124.933Z" fill="none" stroke="#1A1D24" stroke-width="1"></path>
+            <path d="M81.851,112.125L102.523,92.869L160.467,80L224.362,120.74L260.382,125.594L299.533,160.575L293.269,204.319L324.903,225.433L337.432,278.903L367.813,311.172L361.862,330.032L378.149,342.861L354.972,352.255L303.605,348.413L295.148,331.102L276.982,341.152L283.246,363.765L259.442,403.69L244.095,446.544L222.17,460L206.509,403.055L215.905,349.481L213.087,293.981L162.973,217.822L135.097,163.427L108.16,124.933Z" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" filter="url(#mglow)" style="animation:vlBorderPulse 4s ease-in-out infinite;"></path>
+
+            <!-- data scan line, clipped to map bounds -->
+            <g clip-path="url(#mclip)">
+              <rect x="78" y="76" width="306" height="2" fill="var(--accent)" filter="url(#mglow)" style="animation:vlScan 7s ease-in-out infinite;"></rect>
+            </g>
+
+            <!-- origin (Chișinău) -->
+            <circle cx="277.03" cy="268.44" r="4" fill="var(--accent)" filter="url(#mglow)" style="animation:vlOriginPulse 2s ease-out infinite;"></circle>
+            <circle cx="277.03" cy="268.44" r="4" fill="var(--accent)" filter="url(#mglow)"></circle>
+            <text x="290.03" y="272.44" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace">Chișinău</text>
+
+            <!-- endpoint hubs -->
+            <g data-hub><circle cx="95" cy="58" r="4" fill="var(--accent)" filter="url(#mglow)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:0s;"></circle><text x="95" y="44" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">US</text></g>
+            <g data-hub><circle cx="45" cy="250" r="4" fill="var(--accent)" filter="url(#mglow)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-.5s;"></circle><text x="45" y="236" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">EU</text></g>
+            <g data-hub><circle cx="415" cy="150" r="4" fill="var(--accent)" filter="url(#mglow)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-1s;"></circle><text x="415" y="136" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">UAE</text></g>
+            <g data-hub><circle cx="410" cy="420" r="4" fill="var(--accent)" filter="url(#mglow)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-1.5s;"></circle><text x="410" y="406" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">Singapore</text></g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. WHY MOLDOVA ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;margin-bottom:56px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">01 / WHY MOLDOVA</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0;line-height:1.15;">A Tech Hub Engineered for Global Growth</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:24px 0 0;line-height:1.6;">Eastern Europe has long been the backbone of global tech development. Today, Moldova stands out as the ultimate strategic destination for US and EU businesses looking to scale efficiently without the friction of overheated markets.</p>
+      </div>
+      <div data-reveal data-cols3 style="display:grid;grid-template-columns:1fr;gap:24px;">
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Strategic Timezone &amp; Geography</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Positioned perfectly in Eastern Europe, Moldova offers a seamless timezone overlap with European HQs and a highly productive morning-to-midday overlap with the US East Coast (EST).</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Untapped Elite Talent</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">A strong heritage in STEM ensures access to top-tier software engineers, AI researchers, and data scientists with exceptional English proficiency.</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Western Corporate Culture</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Culturally aligned with Western business standards, our tech talent integrates effortlessly into Agile and fast-paced corporate environments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. MITP ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;margin-bottom:56px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">02 / MOLDOVA IT PARK</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0;line-height:1.15;">The Ultimate Financial Sandbox: Moldova IT Park (MITP)</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:24px 0 0;line-height:1.6;">The Moldova Innovation Technology Park is a government-backed initiative designed to attract global IT investments, offering one of the most competitive tax and legal frameworks in Europe.</p>
+      </div>
+      <div data-reveal data-mitp-grid style="display:grid;grid-template-columns:1fr;gap:24px;">
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <div style="font-family:'Geist Mono',monospace;font-size:34px;font-weight:500;color:var(--accent);margin-bottom:20px;filter:drop-shadow(0 0 14px rgba(0,230,118,.35));">7%</div>
+          <h3 style="font-size:18px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Single Flat Tax</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">A single 7% tax on your company's sales revenue covers corporate income tax, personal income tax, social security, and medical insurance — replacing multiple separate tax obligations.</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.20);margin-bottom:20px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg></div>
+          <h3 style="font-size:18px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Gross Salary = Net Salary</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Zero payroll taxes. Your engineers receive their full gross salary, helping you attract top-tier talent while optimizing payroll budget.</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.20);margin-bottom:20px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+          <h3 style="font-size:18px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">State Guarantee Through 2035</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">The 7% tax regime is guaranteed by the Moldovan state through December 31, 2035 — confirmed by law (77/2016) and reaffirmed by parliament's 2025 extension of the MITP framework.</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.20);margin-bottom:20px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg></div>
+          <h3 style="font-size:18px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">100% Virtual Park</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">MITP is a fully virtual structure — no legal requirement to maintain physical office space.</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.20);margin-bottom:20px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><circle cx="12" cy="10" r="3"></circle><path d="M8 17h8"></path></svg></div>
+          <h3 style="font-size:18px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Streamlined IT Visa</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">A simplified, fast-track process for foreign tech management and engineers to obtain 2–4 year work residencies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. INVESTMENT MODELS ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;margin-bottom:56px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">03 / PARTNERSHIP MODELS</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0;line-height:1.15;">Two Strategic Paths to Enter the Market</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:24px 0 0;line-height:1.6;">Whether you want to build your own corporate infrastructure or leverage an existing one, Vortum Logic provides the operational bridge.</p>
+      </div>
+      <div data-reveal data-cols2 style="display:grid;grid-template-columns:1fr;gap:24px;">
+        <div style="padding:40px;border:1px solid #1A1D24;background:#0D0E12;">
+          <span style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--accent);display:block;margin-bottom:16px;">PATH A</span>
+          <h3 style="font-size:24px;font-weight:700;margin:0 0 16px;color:#F4F6F9;">Turnkey R&amp;D Center Setup</h3>
+          <p style="font-size:12px;font-family:'Geist Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:#8A94A6;margin:0 0 20px;">Your Own Company</p>
+          <p style="font-size:15px;color:#8A94A6;margin:0;line-height:1.7;">Ideal for enterprises wanting full ownership of a Moldovan subsidiary. Vortum Logic acts as your local partner, managing end-to-end incorporation, MITP residency registration, legal compliance, and HR setup in partnership with our vetted local legal and accounting network. You own the entity; we remove the operational headache.</p>
+        </div>
+        <div style="padding:40px;border:1px solid #1A1D24;background:#0D0E12;">
+          <span style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--accent);display:block;margin-bottom:16px;">PATH B</span>
+          <h3 style="font-size:24px;font-weight:700;margin:0 0 16px;color:#F4F6F9;">Strategic Partnership &amp; Dedicated Teams</h3>
+          <p style="font-size:12px;font-family:'Geist Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:#8A94A6;margin:0 0 20px;">Invest in Vortum Logic</p>
+          <p style="font-size:15px;color:#8A94A6;margin:0;line-height:1.7;">Bypass the bureaucracy entirely. Invest directly into dedicated infrastructure at Vortum Logic. We assemble, host, and manage elite Dedicated Engineering Teams or autonomous AI Swarms exclusively for your pipeline, with custom engagement models tailored to your investment goals and a transparent B2B contract.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. WHY VORTUM ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;margin-bottom:56px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">04 / YOUR GATEWAY</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0;line-height:1.15;">Your Local Hub with Global Standards</h2>
+        <p style="font-size:18px;color:#8A94A6;margin:24px 0 0;line-height:1.6;">Entering a new jurisdiction requires a reliable partner on the ground. Here's why Vortum Logic fills that role:</p>
+      </div>
+      <div data-reveal data-cols3 style="display:grid;grid-template-columns:1fr;gap:24px;">
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Zero Operational Friction</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We navigate the local legal framework, tax reporting, and onboarding. You focus on product development and market scaling.</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Top 1% Talent Acquisition</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Our vetting process allows us to assemble senior-level squads (Devs, QA, UI/UX, AI Engineers) in weeks, not months.</p>
+        </div>
+        <div style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;">
+          <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;color:#F4F6F9;">Transparent Management</h3>
+          <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We operate with financial clarity, Western-style reporting, and strict NDA/IP protection protocols.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. FAQ ============ -->
+  <section style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;">
+      <div data-reveal style="max-width:860px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">05 / FAQ</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 48px;line-height:1.15;">Frequently Asked Questions for Investors</h2>
+        <div style="border-top:1px solid #1A1D24;">
+          <div data-faq style="border-bottom:1px solid #1A1D24;">
+            <button onClick="{{ toggleFaq }}" data-faq-idx="0" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;text-align:left;background:none;border:0;cursor:pointer;font-family:inherit;padding:28px 0;color:#F4F6F9;">
+              <span style="font-size:18px;font-weight:600;">Is it safe to invest in Moldova?</span>
+              <span data-faq-icon style="flex-shrink:0;color:var(--accent);font-size:22px;line-height:1;transition:transform .25s;">+</span>
+            </button>
+            <div data-faq-body style="max-height:0;overflow:hidden;transition:max-height .3s ease;"><p style="font-size:15px;color:#8A94A6;margin:0;padding:0 0 28px;line-height:1.7;max-width:720px;">Moldova is an EU Candidate Country actively harmonizing its legislation with European standards, with a tech sector recognized internationally — MITP was recognized by the ITU as a global best practice in IT ecosystem development. The regime offers a state-guaranteed, statute-backed tax framework through 2035.</p></div>
+          </div>
+          <div data-faq style="border-bottom:1px solid #1A1D24;">
+            <button onClick="{{ toggleFaq }}" data-faq-idx="1" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;text-align:left;background:none;border:0;cursor:pointer;font-family:inherit;padding:28px 0;color:#F4F6F9;">
+              <span style="font-size:18px;font-weight:600;">Can foreign citizens own 100% of an IT company in Moldova?</span>
+              <span data-faq-icon style="flex-shrink:0;color:var(--accent);font-size:22px;line-height:1;transition:transform .25s;">+</span>
+            </button>
+            <div data-faq-body style="max-height:0;overflow:hidden;transition:max-height .3s ease;"><p style="font-size:15px;color:#8A94A6;margin:0;padding:0 0 28px;line-height:1.7;max-width:720px;">Yes. There are no restrictions on foreign ownership. A foreign individual or corporation can be the sole founder of a Moldovan LLC and an MITP resident.</p></div>
+          </div>
+          <div data-faq style="border-bottom:1px solid #1A1D24;">
+            <button onClick="{{ toggleFaq }}" data-faq-idx="2" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;text-align:left;background:none;border:0;cursor:pointer;font-family:inherit;padding:28px 0;color:#F4F6F9;">
+              <span style="font-size:18px;font-weight:600;">How long does it take to register a company in the IT Park?</span>
+              <span data-faq-icon style="flex-shrink:0;color:var(--accent);font-size:22px;line-height:1;transition:transform .25s;">+</span>
+            </button>
+            <div data-faq-body style="max-height:0;overflow:hidden;transition:max-height .3s ease;"><p style="font-size:15px;color:#8A94A6;margin:0;padding:0 0 28px;line-height:1.7;max-width:720px;">The MITP registration process is designed to be fast once the legal entity is established.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. CTA ============ -->
+  <section id="contact" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;overflow:hidden;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal style="margin-bottom:64px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">06 / GET STARTED</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 16px;line-height:1.15;">Ready to Architect Your East-European Hub?</h2>
+        <p style="font-size:18px;color:#8A94A6;max-width:640px;margin:0;line-height:1.6;">Let's discuss how the Moldova IT Park and Vortum Logic can scale your engineering capacity today.</p>
+      </div>
+      <div style="border:1px solid #1A1D24;">
+        <div style="padding:clamp(32px,5vw,48px);border-bottom:1px solid #1A1D24;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 150% 33% at 50% 0%, rgba(0,230,119,.10) 0%, rgba(0,230,119,0) 100%);"></div>
+          <sc-if value="{{ isSubmitted }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:48px 0;position:relative;">
+              <div style="width:64px;height:64px;border-radius:9999px;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);color:var(--accent);margin-bottom:16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <h3 style="font-size:24px;font-weight:700;margin:0;">Request Received</h3>
+              <p style="color:#8A94A6;margin:0;">Your request has been received. Our team will respond within 24 hours.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <h3 style="font-size:20px;font-weight:600;margin:0 0 32px;">Book a Strategic Consultation</h3>
+              <form onSubmit="{{ onSubmit }}" style="display:grid;grid-template-columns:1fr;gap:32px;position:relative;" data-form>
+                <div>
+                  <input type="text" name="name" required placeholder="Name / Company" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                </div>
+                <div style="position:relative;">
+                  <input type="email" name="email" required placeholder="Corporate Email" onInput="{{ onEmailInput }}" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                  <sc-if value="{{ hasEmailError }}" hint-placeholder-val="{{ false }}">
+                    <span style="color:#ef4444;font-size:12px;position:absolute;bottom:-20px;left:0;">{{ emailError }}</span>
+                  </sc-if>
+                </div>
+                <div>
+                  <textarea name="message" placeholder="Briefly describe your expansion or talent needs..." rows="3" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;resize:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'"></textarea>
+                </div>
+                <div>
+                  <button type="submit" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" style="width:100%;background:var(--accent);color:#0D0E12;font-family:inherit;font-weight:600;font-size:15px;padding:16px;border:0;cursor:pointer;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Book a Strategic Consultation</button>
+                </div>
+              </form>
+            </div>
+          </sc-if>
+        </div>
+        <div style="padding:clamp(32px,5vw,48px);display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:32px;" data-calendly-row>
+          <div style="position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;right:0;width:128px;height:128px;background:rgba(0,230,118,.05);filter:blur(48px);border-radius:9999px;"></div>
+            <p style="font-family:'Geist Mono',monospace;font-size:12px;color:#8A94A6;text-transform:uppercase;letter-spacing:.15em;margin:0 0 8px;">Prefer a direct conversation?</p>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 8px;">Schedule a Strategic Call with the Founder.</h3>
+            <p style="color:#8A94A6;font-size:14px;line-height:1.6;max-width:512px;margin:0;">Book a strategic call directly with our founder to map out your East-European hub.</p>
+          </div>
+          <a href="https://calendly.com/vortumlogic/30min" target="_blank" rel="noreferrer" onMouseEnter="{{ enterOutline }}" onMouseLeave="{{ leaveOutline }}" style="flex-shrink:0;display:inline-block;border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:16px 40px;white-space:nowrap;transition:background .2s;">Schedule via Calendly</a>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:20;pointer-events:none;height:260px;"><canvas data-glow data-direction="up" data-variant="full" style="width:100%;height:100%;display:block;"></canvas></div>
+  </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#0D0E12;border-top:1px solid #1A1D24;padding:64px 0 32px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-footer-grid style="display:grid;grid-template-columns:1fr;gap:48px;margin-bottom:64px;">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <a href="Vortum Logic.dc.html" style="display:flex;align-items:center;gap:12px;color:#F4F6F9;">
+            <svg width="24" height="24" viewBox="0 0 86.4 85.8" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1);">
+              <polygon fill="var(--accent)" points="0,42 21.6,20.7 21.6,63.8 64.4,63.8 64.4,20.7 86.4,0 86.4,41.8 43.2,85.8"></polygon>
+            </svg>
+            <span style="font-weight:600;font-size:18px;letter-spacing:-.02em;">Vortum Logic</span>
+          </a>
+          <p style="font-size:14px;color:#8A94A6;max-width:384px;margin:0;">Architecting next-generation digital ecosystems and autonomous AI infrastructure.</p>
+        </div>
+        <div>
+          <h4 style="font-family:'Geist Mono',monospace;font-size:14px;text-transform:uppercase;color:#F4F6F9;margin:0 0 24px;">Capabilities</h4>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+            <li><a href="AI Solutions.dc.html" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">AI Solutions</a></li>
+            <li><a href="Vortum Logic.dc.html#development" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">Custom Development</a></li>
+            <li><a href="Vortum Logic.dc.html#teams" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">Dedicated Teams</a></li>
+            <li><a href="Vortum Logic.dc.html#framework" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;transition:color .2s;">Framework</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-family:'Geist Mono',monospace;font-size:14px;text-transform:uppercase;color:#F4F6F9;margin:0 0 24px;">Contact</h4>
+          <a href="mailto:partner@vortumlogic.com" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;display:block;margin-bottom:24px;transition:color .2s;">partner@vortumlogic.com</a>
+          <div style="display:flex;gap:16px;">
+            <a href="#" onMouseEnter="{{ enterSocial }}" onMouseLeave="{{ leaveSocial }}" aria-label="LinkedIn" style="width:40px;height:40px;border:1px solid #1A1D24;display:flex;align-items:center;justify-content:center;color:#8A94A6;transition:all .2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1A1D24;padding-top:32px;">
+        <p style="font-size:12px;color:#8A94A6;text-align:center;margin:0;">© 2026 Vortum Logic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false, isSubmitted: false, emailError: "", faqOpen: 0 };
+
+  componentDidMount() {
+    this.accent = "#00E676";
+    this.initResponsive();
+    this.initScroll();
+    this.initReveal();
+    this.initGlows();
+    this.syncFaq();
+  }
+  componentDidUpdate() { this.syncFaq(); }
+  componentWillUnmount() {
+    if (this._glowResize) window.removeEventListener("resize", this._glowResize);
+    if (this._scroll) window.removeEventListener("scroll", this._scroll);
+    if (this._resp) window.removeEventListener("resize", this._resp);
+  }
+
+  initResponsive() {
+    const apply = () => {
+      const wide = window.innerWidth >= 1024;
+      const md = window.innerWidth >= 768;
+      const dnav = document.querySelector("[data-desktop-nav]");
+      const cta = document.querySelector("[data-cta-desktop]");
+      const mbtn = document.querySelector("[data-menu-btn]");
+      if (dnav) dnav.style.display = md ? "flex" : "none";
+      if (cta) cta.style.display = md ? "block" : "none";
+      if (mbtn) mbtn.style.display = md ? "none" : "flex";
+      if (md && this.state.menuOpen) this.setState({ menuOpen: false });
+      document.querySelectorAll("[data-hero-grid]").forEach(g => g.style.gridTemplateColumns = wide ? "1.05fr .95fr" : "1fr");
+      document.querySelectorAll("[data-cols3]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-cols2]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-mitp-grid]").forEach(g => g.style.gridTemplateColumns = wide ? "1fr 1fr 1fr" : (md ? "1fr 1fr" : "1fr"));
+      document.querySelectorAll("[data-footer-grid]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-calendly-row]").forEach(el => { el.style.flexDirection = wide ? "row" : "column"; el.style.alignItems = wide ? "center" : "flex-start"; });
+    };
+    apply();
+    this._resp = apply;
+    window.addEventListener("resize", apply);
+  }
+  initScroll() {
+    const header = document.querySelector("[data-navbar]");
+    const onScroll = () => {
+      if (!header) return;
+      const s = window.scrollY > 20;
+      header.style.paddingTop = s ? "16px" : "24px";
+      header.style.paddingBottom = s ? "16px" : "24px";
+    };
+    onScroll();
+    this._scroll = onScroll;
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+  initReveal() {
+    const els = document.querySelectorAll("[data-reveal]");
+    els.forEach(el => { el.style.opacity = "0"; el.style.transform = "translateY(15px)"; el.style.transition = "opacity .6s ease, transform .6s ease"; });
+    if (!("IntersectionObserver" in window)) { els.forEach(el => { el.style.opacity = "1"; el.style.transform = "none"; }); return; }
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach(en => { if (en.isIntersecting) { en.target.style.opacity = "1"; en.target.style.transform = "none"; io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -80px 0px" });
+    els.forEach(el => io.observe(el));
+  }
+  syncFaq() {
+    document.querySelectorAll("[data-faq]").forEach((f, i) => {
+      const body = f.querySelector("[data-faq-body]");
+      const icon = f.querySelector("[data-faq-icon]");
+      const open = this.state.faqOpen === i;
+      if (body) body.style.maxHeight = open ? body.scrollHeight + "px" : "0px";
+      if (icon) icon.style.transform = open ? "rotate(45deg)" : "rotate(0deg)";
+    });
+  }
+
+  drawGlow(canvas, direction, variant) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    const W = canvas.width, H = canvas.height;
+    const img = ctx.createImageData(W, H); const data = img.data;
+    const cx = W / 2; const s = (v) => v * dpr;
+    for (let y = 0; y < H; y++) {
+      const dy = direction === "up" ? H - y : y;
+      const f = Math.max(0, 1 - dy / H); const fade = f * f * (3 - 2 * f);
+      if (variant === "ambient") {
+        const dyAmb = Math.pow(dy / (H * 0.55), 2);
+        for (let x = 0; x < W; x++) {
+          const dx = x - cx;
+          const g = 0.1 * Math.exp(-(Math.pow(dx / (W * 0.75), 2) + dyAmb)) * fade;
+          if (g <= 0.0015) continue;
+          const a = Math.min(1, g); const i = (y * W + x) * 4;
+          data[i] = 0; data[i + 1] = 230; data[i + 2] = 119; data[i + 3] = Math.max(0, Math.min(255, a * 255));
+        }
+        continue;
+      }
+      const dy14 = Math.pow(dy / s(14), 2), dy48 = Math.pow(dy / s(48), 2), dy130 = Math.pow(dy / s(130), 2), dyLine = Math.pow(dy / s(2.2), 2);
+      for (let x = 0; x < W; x++) {
+        const dx = x - cx;
+        const g1 = 0.32 * Math.exp(-(Math.pow(dx / (W * 0.22), 2) + dy14));
+        const g2 = 0.16 * Math.exp(-(Math.pow(dx / (W * 0.34), 2) + dy48));
+        const g3 = 0.08 * Math.exp(-(Math.pow(dx / (W * 0.5), 2) + dy130));
+        const wl = 0.45 * Math.exp(-(Math.pow(dx / (W * 0.26), 2) + dyLine));
+        const g = (g1 + g2 + g3) * fade;
+        let a = g + wl * fade;
+        if (a <= 0.0015) continue; if (a > 1) a = 1;
+        const r = (255 * wl) / a, gc = (230 * g + 255 * wl) / a, b = (119 * g + 255 * wl) / a;
+        const i = (y * W + x) * 4;
+        data[i] = Math.max(0, Math.min(255, r)); data[i + 1] = Math.max(0, Math.min(255, gc)); data[i + 2] = Math.max(0, Math.min(255, b)); data[i + 3] = Math.max(0, Math.min(255, a * 255));
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+  initGlows() {
+    const redraw = () => document.querySelectorAll("canvas[data-glow]").forEach(c => this.drawGlow(c, c.getAttribute("data-direction") || "up", c.getAttribute("data-variant") || "full"));
+    redraw();
+    setTimeout(redraw, 120);
+    this._glowResize = redraw;
+    window.addEventListener("resize", redraw);
+  }
+
+  go(id) {
+    this.setState({ menuOpen: false });
+    const el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 40, behavior: "smooth" });
+  }
+  onSubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email") || "");
+    const free = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"];
+    if (free.includes(email.split("@")[1])) { this.setState({ emailError: "Please use your corporate email address." }); return; }
+    this.setState({ isSubmitted: true });
+  };
+  onEmailInput = () => { if (this.state.emailError) this.setState({ emailError: "" }); };
+  toggleMenu = () => this.setState(s => ({ menuOpen: !s.menuOpen }));
+  toggleFaq = (e) => { const i = parseInt(e.currentTarget.getAttribute("data-faq-idx"), 10); this.setState(s => ({ faqOpen: s.faqOpen === i ? -1 : i })); };
+
+  enterLink = (e) => { e.currentTarget.style.color = this.accent; };
+  leaveLink = (e) => { e.currentTarget.style.color = "#8A94A6"; };
+  enterPrimary = (e) => { e.currentTarget.style.boxShadow = "rgb(42 240 124 / 55%) 0px 0px 52px 0px, rgba(0,255,178,0.22) 0px 0px 0px 6px"; e.currentTarget.style.filter = "brightness(.92)"; };
+  leavePrimary = (e) => { e.currentTarget.style.boxShadow = "rgb(42 240 124 / 32%) 0px 0px 34px 0px, rgba(0,255,178,0.1) 0px 0px 0px 4px"; e.currentTarget.style.filter = "none"; };
+  enterOutline = (e) => { e.currentTarget.style.background = "rgba(0,230,118,.10)"; };
+  leaveOutline = (e) => { e.currentTarget.style.background = "transparent"; };
+  enterSocial = (e) => { e.currentTarget.style.color = this.accent; e.currentTarget.style.borderColor = this.accent; };
+  leaveSocial = (e) => { e.currentTarget.style.color = "#8A94A6"; e.currentTarget.style.borderColor = "#1A1D24"; };
+
+  renderVals() {
+    return {
+      menuOpen: this.state.menuOpen,
+      isSubmitted: this.state.isSubmitted,
+      notSubmitted: !this.state.isSubmitted,
+      emailError: this.state.emailError,
+      hasEmailError: !!this.state.emailError,
+      goContact: () => this.go("contact"),
+      toggleMenu: this.toggleMenu,
+      toggleFaq: this.toggleFaq,
+      onSubmit: this.onSubmit,
+      onEmailInput: this.onEmailInput,
+      enterLink: this.enterLink, leaveLink: this.leaveLink,
+      enterPrimary: this.enterPrimary, leavePrimary: this.leavePrimary,
+      enterOutline: this.enterOutline, leaveOutline: this.leaveOutline,
+      enterSocial: this.enterSocial, leaveSocial: this.leaveSocial
+    };
+  }
+}
+</script>
+</body>
+</html>

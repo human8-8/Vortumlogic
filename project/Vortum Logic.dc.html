@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --accent:#00E676; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; background:#0D0E12; color:#F4F6F9; font-family:'Plus Jakarta Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ color:#00c964; }
+  ::selection{ background:rgba(0,230,118,.30); color:var(--accent); }
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-track{ background:#0D0E12; }
+  ::-webkit-scrollbar-thumb{ background:#1A1D24; }
+  ::-webkit-scrollbar-thumb:hover{ background:#8A94A6; }
+  @keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes vlPing{ 75%,100%{transform:scale(2);opacity:0} }
+  @keyframes vlNodePulse{ 0%{opacity:.3;r:3px} 100%{opacity:1;r:6px} }
+  @keyframes vlDash{ to{stroke-dashoffset:-200} }
+  @keyframes vlCubeDraw{ to{stroke-dashoffset:0} }
+  @keyframes vlSpin{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes vlDotPulse{ 0%{r:3px;opacity:.6} 100%{r:6px;opacity:1} }
+  @keyframes vlMapDash{ to{stroke-dashoffset:-110} }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
+</helmet>
+
+<div style="position:relative;background:#0D0E12;overflow:hidden;min-height:100vh;">
+  <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0D0E12"></rect><g transform="translate(50,50) scale(0.42) translate(-43.2,-42.9)"><polygon fill="#00E676" points="0,42 21.6,20.7 21.6,63.8 64.4,63.8 64.4,20.7 86.4,0 86.4,41.8 43.2,85.8" transform="translate(86.4,0) scale(-1,1)"></polygon></g></svg></template>
+
+  <!-- ============ NAVBAR ============ -->
+  <header data-navbar style="position:fixed;top:0;left:0;right:0;z-index:50;transition:padding .3s ease;border-bottom:1px solid #1A1D24;background:rgba(13,14,18,.80);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:24px;padding-bottom:24px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);display:flex;align-items:center;justify-content:space-between;">
+      <div onClick="{{ goTop }}" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <svg width="24" height="24" viewBox="0 0 86.4 85.8" xmlns="http://www.w3.org/2000/svg">
+          <polygon fill="var(--accent)" points="0,42 21.6,20.7 21.6,63.8 64.4,63.8 64.4,20.7 86.4,0 86.4,41.8 43.2,85.8" transform="translate(86.4,0) scale(-1,1)"></polygon>
+        </svg>
+        <span style="font-weight:600;font-size:18px;letter-spacing:-.02em;">Vortum Logic</span>
+      </div>
+
+      <nav style="display:flex;align-items:center;gap:32px;" data-desktop-nav>
+        <button onClick="{{ goServices }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">AI Solutions</button>
+        <button onClick="{{ goDevelopment }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Custom Development</button>
+        <button onClick="{{ goTeams }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Dedicated Teams</button>
+        <button onClick="{{ goFramework }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:#8A94A6;transition:color .2s;">Framework</button>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button onClick="{{ goContact }}" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" data-cta-desktop style="border:0;cursor:pointer;font-family:inherit;background:var(--accent);color:#0D0E12;padding:10px 24px;font-weight:600;font-size:14px;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Book a Call</button>
+        <button onClick="{{ toggleMenu }}" aria-label="Toggle menu" data-menu-btn style="display:none;align-items:center;justify-content:center;width:36px;height:36px;background:none;border:0;color:#8A94A6;cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:40;background:rgba(13,14,18,.95);backdrop-filter:blur(12px);display:flex;flex-direction:column;padding:96px 24px 0;">
+      <nav style="display:flex;flex-direction:column;">
+        <button onClick="{{ goServices }}" style="text-align:left;font-family:inherit;font-size:18px;font-weight:500;color:#8A94A6;background:none;border:0;border-bottom:1px solid #1A1D24;padding:16px 0;cursor:pointer;">AI Solutions</button>
+        <button onClick="{{ goDevelopment }}" style="text-align:left;font-family:inherit;font-size:18px;font-weight:500;color:#8A94A6;background:none;border:0;border-bottom:1px solid #1A1D24;padding:16px 0;cursor:pointer;">Custom Development</button>
+        <button onClick="{{ goTeams }}" style="text-align:left;font-family:inherit;font-size:18px;font-weight:500;color:#8A94A6;background:none;border:0;border-bottom:1px solid #1A1D24;padding:16px 0;cursor:pointer;">Dedicated Teams</button>
+        <button onClick="{{ goFramework }}" style="text-align:left;font-family:inherit;font-size:18px;font-weight:500;color:#8A94A6;background:none;border:0;border-bottom:1px solid #1A1D24;padding:16px 0;cursor:pointer;">Framework</button>
+      </nav>
+      <button onClick="{{ goContact }}" style="margin-top:32px;width:100%;background:var(--accent);color:#0D0E12;border:0;padding:16px 24px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;">Book a Call</button>
+    </div>
+  </sc-if>
+
+  <main>
+  <!-- ============ HERO ============ -->
+  <section style="position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding-top:80px;padding-bottom:40px;overflow:hidden;background:#0D0E12;">
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:20;pointer-events:none;height:260px;">
+      <canvas data-glow data-direction="up" data-variant="full" style="width:100%;height:100%;display:block;"></canvas>
+    </div>
+    <div style="position:absolute;inset:0;z-index:0;overflow:hidden;">
+      <div data-shader style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:900px;height:500px;max-width:100%;pointer-events:none;z-index:20;opacity:.4;-webkit-mask:radial-gradient(ellipse 50% 50% at 50% 50%, #000 30%, rgba(0,0,0,0) 72%);mask:radial-gradient(ellipse 50% 50% at 50% 50%, #000 30%, rgba(0,0,0,0) 72%);"></div>
+    </div>
+
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);position:relative;z-index:30;text-align:center;display:flex;flex-direction:column;align-items:center;">
+      <span style="opacity:0;animation:fadeUp .8s ease .2s forwards;display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono','SF Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.15em;color:#8A94A6;border:1px solid #1A1D24;padding:8px 16px;background:rgba(13,14,18,.60);backdrop-filter:blur(4px);">
+        <span style="position:relative;display:flex;height:8px;width:8px;flex-shrink:0;">
+          <span style="animation:vlPing 1s cubic-bezier(0,0,.2,1) infinite;position:absolute;display:inline-flex;height:100%;width:100%;border-radius:9999px;background:var(--accent);opacity:.75;"></span>
+          <span style="position:relative;display:inline-flex;border-radius:9999px;height:8px;width:8px;background:var(--accent);"></span>
+        </span>
+        // Intelligence Infrastructure · Est. 2019
+      </span>
+
+      <h1 style="opacity:0;animation:fadeUp .9s cubic-bezier(.16,1,.3,1) .3s forwards;margin:32px 0 0;font-size:clamp(40px,7vw,80px);font-weight:700;letter-spacing:-.02em;line-height:1.1;max-width:1024px;">Intelligent Automation &amp; Engineering Partner</h1>
+
+      <p style="opacity:0;animation:fadeUp .8s ease .5s forwards;margin:24px 0 0;font-size:clamp(18px,2vw,20px);color:#8A94A6;max-width:768px;line-height:1.6;">We build autonomous AI agents that handle your high-value workflows, and provide elite engineering teams to scale your software infrastructure.</p>
+
+      <div style="opacity:0;animation:fadeUp .8s ease .7s forwards;margin-top:40px;display:flex;flex-wrap:wrap;justify-content:center;gap:16px;">
+        <button onClick="{{ goContact }}" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" style="height:48px;padding:0 32px;font-family:inherit;font-weight:600;font-size:15px;background:var(--accent);color:#0D0E12;border:0;cursor:pointer;min-width:220px;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Book a Call</button>
+        <button onClick="{{ goServices }}" onMouseEnter="{{ enterOutline }}" onMouseLeave="{{ leaveOutline }}" style="height:48px;padding:0 32px;font-family:inherit;font-weight:600;font-size:15px;background:transparent;border:1px solid var(--accent);color:var(--accent);cursor:pointer;min-width:220px;transition:background .2s;">Explore Capabilities</button>
+      </div>
+
+      <div style="opacity:0;animation:fadeUp .8s ease .9s forwards;margin-top:40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 24px;">
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#8A94A6;">// Trusted in</span>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 24px;">
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8A94A6;"><span style="font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;color:rgba(138,148,166,.5);">us</span>United States</span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8A94A6;"><span style="font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;color:rgba(138,148,166,.5);">sg</span>Singapore</span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8A94A6;"><span style="font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;color:rgba(138,148,166,.5);">ae</span>UAE</span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8A94A6;"><span style="font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;color:rgba(138,148,166,.5);">gb</span>United Kingdom</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 AI SOLUTIONS ============ -->
+  <section id="services" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal style="display:grid;grid-template-columns:1fr;gap:24px;" data-grid2>
+        <div data-col-left style="padding-right:0;">
+          <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">01 / AI SOLUTIONS</span>
+          <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 24px;line-height:1.15;">Autonomous AI Swarms:<br>Your Workforce, Optimized</h2>
+          <p style="font-size:18px;color:#8A94A6;margin:0 0 48px;line-height:1.6;">We don't just automate tasks; we engineer autonomous AI agents designed to handle end-to-end workflows. By deploying specialized Swarms, we eliminate process bottlenecks, reduce operational latency, and allow your core team to focus on high-impact strategy while our agents handle the scale.</p>
+          <div style="display:flex;flex-direction:column;gap:40px;">
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;gap:24px;cursor:default;">
+              <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.20);flex-shrink:0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"></path></svg>
+              </div>
+              <div><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Precision Engineering</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We build agentic systems tailored to your unique data architecture, with verification layers and human-in-the-loop checkpoints built into every critical decision point.</p></div>
+            </div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;gap:24px;cursor:default;">
+              <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.20);flex-shrink:0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              </div>
+              <div><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Autonomous Scalability</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Our swarms operate 24/7 without fatigue. As your business grows, your AI capacity scales instantly, ensuring consistent service quality.</p></div>
+            </div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;gap:24px;cursor:default;">
+              <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);border:1px solid rgba(0,230,118,.20);flex-shrink:0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg>
+              </div>
+              <div><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Seamless Integration</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We integrate directly into your existing stack—no need to overhaul your current infrastructure. We connect to your systems, act on your data, and deliver measurable ROI from day one.</p></div>
+            </div>
+          </div>
+
+          <div style="margin-top:48px;">
+            <a href="AI Solutions.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono','SF Mono',monospace;font-size:15px;font-weight:500;color:var(--accent);text-decoration:none;">Explore AI Solutions in depth →</a>
+          </div>
+        </div>
+        <div data-col-right style="display:flex;align-items:flex-start;justify-content:center;min-height:400px;">
+          <svg viewBox="35 35 330 330" preserveAspectRatio="xMidYMid meet" style="width:100%;height:408px;">
+            <defs><filter id="glow-ai" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs>
+            <g transform="translate(200,200)">
+              <circle cx="0" cy="0" r="40" fill="none" stroke="#1A1D24" stroke-width="1" stroke-dasharray="4 4"></circle>
+              <circle cx="0" cy="0" r="100" fill="none" stroke="#1A1D24" stroke-width="1" stroke-dasharray="4 4"></circle>
+              <circle cx="0" cy="0" r="160" fill="none" stroke="#1A1D24" stroke-width="1" stroke-dasharray="4 4"></circle>
+              <line x1="0" y1="0" x2="-60" y2="-80" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="100" filter="url(#glow-ai)" style="animation:vlDash 4s linear infinite;"></line>
+              <line x1="0" y1="0" x2="80" y2="-60" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="100" filter="url(#glow-ai)" style="animation:vlDash 4s linear infinite;animation-delay:-1s;"></line>
+              <line x1="0" y1="0" x2="-80" y2="60" stroke="#1A1D24" stroke-width="1"></line>
+              <line x1="0" y1="0" x2="60" y2="80" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="100" filter="url(#glow-ai)" style="animation:vlDash 4s linear infinite;animation-delay:-2s;"></line>
+              <line x1="-60" y1="-80" x2="-120" y2="-100" stroke="#1A1D24" stroke-width="1"></line>
+              <line x1="80" y1="-60" x2="140" y2="-40" stroke="#1A1D24" stroke-width="1"></line>
+              <line x1="-80" y1="60" x2="-140" y2="40" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="100" filter="url(#glow-ai)" style="animation:vlDash 4s linear infinite;animation-delay:-1.5s;"></line>
+              <line x1="60" y1="80" x2="120" y2="100" stroke="#1A1D24" stroke-width="1"></line>
+              <circle cx="0" cy="0" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;"></circle>
+              <circle cx="-60" cy="-80" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-.5s;"></circle>
+              <circle cx="80" cy="-60" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-1s;"></circle>
+              <circle cx="-80" cy="60" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-1.5s;"></circle>
+              <circle cx="60" cy="80" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-2s;"></circle>
+              <circle cx="-120" cy="-100" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-2.5s;"></circle>
+              <circle cx="140" cy="-40" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-3s;"></circle>
+              <circle cx="-140" cy="40" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-3.5s;"></circle>
+              <circle cx="120" cy="100" r="4" fill="var(--accent)" filter="url(#glow-ai)" style="animation:vlNodePulse 3s infinite alternate;animation-delay:-4s;"></circle>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 CUSTOM DEVELOPMENT ============ -->
+  <section id="development" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal style="display:grid;grid-template-columns:1fr;gap:24px;" data-grid2>
+        <div data-col-right style="display:flex;align-items:flex-start;justify-content:center;min-height:400px;" data-order-first>
+          <svg viewBox="60 60 380 380" preserveAspectRatio="xMidYMid meet" style="width:100%;height:408px;">
+            <defs><filter id="glow-cube" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs>
+            <g transform="translate(250,250) scale(1.5)">
+              <g style="transform-origin:0 0;animation:vlSpin 60s linear infinite;">
+                <polygon points="0,-120 104,-60 104,60 0,120 -104,60 -104,-60" fill="none" stroke="#1A1D24" stroke-width="1.5"></polygon>
+                <line x1="0" y1="0" x2="0" y2="-120" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="1000" stroke-dashoffset="1000" filter="url(#glow-cube)" style="animation:vlCubeDraw 4s ease-in-out infinite alternate;"></line>
+                <line x1="0" y1="0" x2="104" y2="60" fill="none" stroke="#1A1D24" stroke-width="1.5"></line>
+                <line x1="0" y1="0" x2="-104" y2="60" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="1000" stroke-dashoffset="1000" filter="url(#glow-cube)" style="animation:vlCubeDraw 4s ease-in-out infinite alternate;animation-delay:-2s;"></line>
+                <polygon points="0,-60 52,-30 52,30 0,60 -52,30 -52,-30" fill="none" stroke="#1A1D24" stroke-width="1.5" stroke-dasharray="4 4"></polygon>
+                <line x1="0" y1="-60" x2="0" y2="-120" fill="none" stroke="#1A1D24" stroke-width="1.5"></line>
+                <line x1="52" y1="30" x2="104" y2="60" fill="none" stroke="#1A1D24" stroke-width="1.5"></line>
+                <line x1="-52" y1="30" x2="-104" y2="60" fill="none" stroke="#1A1D24" stroke-width="1.5"></line>
+                <circle cx="0" cy="0" r="4" fill="var(--accent)" filter="url(#glow-cube)"></circle>
+                <circle cx="0" cy="-120" r="3" fill="var(--accent)" filter="url(#glow-cube)"></circle>
+                <circle cx="104" cy="-60" r="3" fill="var(--accent)" filter="url(#glow-cube)"></circle>
+                <circle cx="104" cy="60" r="3" fill="var(--accent)" filter="url(#glow-cube)"></circle>
+                <circle cx="0" cy="120" r="3" fill="var(--accent)" filter="url(#glow-cube)"></circle>
+                <circle cx="-104" cy="60" r="3" fill="var(--accent)" filter="url(#glow-cube)"></circle>
+                <circle cx="-104" cy="-60" r="3" fill="var(--accent)" filter="url(#glow-cube)"></circle>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div data-col-left data-order-second style="padding-left:0;">
+          <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">02 / CUSTOM DEVELOPMENT</span>
+          <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 24px;line-height:1.15;">Engineering Excellence.<br>Built for Business Scale.</h2>
+          <p style="font-size:18px;color:#8A94A6;margin:0 0 48px;line-height:1.6;">We design and deliver robust digital infrastructure that aligns complex software architecture with your long-term commercial objectives.</p>
+          <div style="display:flex;flex-direction:column;gap:40px;">
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;gap:24px;cursor:default;">
+              <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:20px;color:#1A1D24;transition:color .2s;">01</span>
+              <div><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Architectural Integrity</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We don't just build software; we engineer sustainable digital ecosystems. Every system is architected from the ground up to prevent technical debt, minimize operational friction, and guarantee maximum uptime under high enterprise loads.</p></div>
+            </div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;gap:24px;cursor:default;">
+              <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:20px;color:#1A1D24;transition:color .2s;">02</span>
+              <div><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Product Lifecycle Management</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">From initial strategic mapping to full-scale deployment, we own the entire execution process. Our cross-functional engineering units operate with complete autonomy, converting your high-level business goals into secure, production-ready systems.</p></div>
+            </div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;gap:24px;cursor:default;">
+              <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:20px;color:#1A1D24;transition:color .2s;">03</span>
+              <div><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Risk Mitigation</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Predictability is embedded into our development DNA. We enforce rigorous quality standards and institutional knowledge-sharing, ensuring your deadlines are met without compromise.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 DEDICATED TEAMS ============ -->
+  <section id="teams" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal style="display:grid;grid-template-columns:1fr;gap:24px;" data-grid2>
+        <div data-col-right data-order-second style="display:flex;align-items:flex-start;justify-content:center;min-height:400px;">
+          <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="width:100%;height:408px;">
+            <defs><filter id="glow-map" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs>
+            <g transform="translate(400,250) scale(1.5) translate(-400,-250)">
+              <path d="M150,150 Q180,120 250,130 T300,200 Q280,300 320,400" fill="none" stroke="#1A1D24" stroke-width="1"></path>
+              <path d="M380,120 Q420,80 500,100 T550,180 Q600,220 580,300" fill="none" stroke="#1A1D24" stroke-width="1"></path>
+              <path d="M550,100 Q650,50 750,120 T700,250 Q750,350 680,420" fill="none" stroke="#1A1D24" stroke-width="1"></path>
+              <path d="M220,180 Q400,100 480,140" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".5"></path>
+              <path d="M480,140 Q600,200 650,280" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".5"></path>
+              <path d="M650,280 Q550,250 520,220" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".5"></path>
+              <path d="M220,180 Q400,100 480,140" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#glow-map)" style="animation:vlMapDash 3s linear infinite;"></path>
+              <path d="M480,140 Q600,200 650,280" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#glow-map)" style="animation:vlMapDash 3s linear infinite;animation-delay:-1s;"></path>
+              <path d="M650,280 Q550,250 520,220" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#glow-map)" style="animation:vlMapDash 3s linear infinite;animation-delay:-2s;"></path>
+              <circle cx="220" cy="180" r="4" fill="var(--accent)" filter="url(#glow-map)" style="animation:vlDotPulse 2s infinite alternate;"></circle>
+              <text x="220" y="200" fill="#8A94A6" font-size="10" font-family="monospace" text-anchor="middle">USA</text>
+              <circle cx="480" cy="140" r="4" fill="var(--accent)" filter="url(#glow-map)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-.5s;"></circle>
+              <text x="480" y="160" fill="#8A94A6" font-size="10" font-family="monospace" text-anchor="middle">EU HUB</text>
+              <circle cx="520" cy="220" r="4" fill="var(--accent)" filter="url(#glow-map)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-1s;"></circle>
+              <text x="520" y="240" fill="#8A94A6" font-size="10" font-family="monospace" text-anchor="middle">UAE</text>
+              <circle cx="650" cy="280" r="4" fill="var(--accent)" filter="url(#glow-map)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-1.5s;"></circle>
+              <text x="650" y="300" fill="#8A94A6" font-size="10" font-family="monospace" text-anchor="middle">SG</text>
+            </g>
+          </svg>
+        </div>
+        <div data-col-left data-order-first style="padding-left:0;">
+          <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">03 / DEDICATED TEAMS</span>
+          <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 24px;line-height:1.15;">Elite Dedicated Teams.<br>Accelerating Your Product Pipeline.</h2>
+          <p style="font-size:18px;color:#8A94A6;margin:0 0 48px;line-height:1.6;">Scale your engineering capacity instantly. We provide high-performing, deeply vetted technical squads that integrate seamlessly into your operational ecosystem and timezone.</p>
+          <div style="display:flex;flex-direction:column;gap:40px;">
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;flex-direction:column;cursor:default;"><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">The Top 1% Talent Hub</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Our recruitment engine bypasses the traditional hiring grind. Based in Eastern Europe's rapidly growing tech ecosystem, we secure and deploy elite engineering talent with flawless English proficiency, exceptional technical alignment, and zero operational overhead for your HR.</p></div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;flex-direction:column;cursor:default;"><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Instant Frictionless Integration</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We don't just send contract individuals; we embed high-velocity squads into your existing workflows. Our teams adapt to your internal engineering culture, tools, and communication standards from day one, minimizing management friction.</p></div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;flex-direction:column;cursor:default;"><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Predictable Capacity Control</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Mitigate the volatility of tech scaling. With flexible engagement models, you retain complete strategic control over your engineering bandwidth, enabling your enterprise to ramp capacity up or down as market conditions demand.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 INVESTMENTS ============ -->
+  <section id="investments" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal style="display:grid;grid-template-columns:1fr;gap:24px;" data-grid2>
+        <div data-col-right data-order-first style="display:flex;align-items:flex-start;justify-content:center;min-height:400px;">
+          <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="width:100%;height:408px;overflow:visible;" aria-label="Moldova as origin of engineering talent flowing to global hubs">
+            <defs><filter id="glow-inv" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs>
+            <g transform="translate(136,-61) scale(1.15)">
+              <path d="M277.03,268.44 L95,58" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L45,250" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L415,150" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L410,420" fill="none" stroke="var(--accent)" stroke-width="1" opacity=".22"></path>
+              <path d="M277.03,268.44 L95,58" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#glow-inv)" style="animation:vlMapDash 3s linear infinite;"></path>
+              <path d="M277.03,268.44 L45,250" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#glow-inv)" style="animation:vlMapDash 3s linear infinite;animation-delay:-.8s;"></path>
+              <path d="M277.03,268.44 L415,150" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#glow-inv)" style="animation:vlMapDash 3s linear infinite;animation-delay:-1.6s;"></path>
+              <path d="M277.03,268.44 L410,420" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 100" filter="url(#glow-inv)" style="animation:vlMapDash 3s linear infinite;animation-delay:-2.4s;"></path>
+              <path d="M81.851,112.125L102.523,92.869L160.467,80L224.362,120.74L260.382,125.594L299.533,160.575L293.269,204.319L324.903,225.433L337.432,278.903L367.813,311.172L361.862,330.032L378.149,342.861L354.972,352.255L303.605,348.413L295.148,331.102L276.982,341.152L283.246,363.765L259.442,403.69L244.095,446.544L222.17,460L206.509,403.055L215.905,349.481L213.087,293.981L162.973,217.822L135.097,163.427L108.16,124.933Z" fill="none" stroke="#1A1D24" stroke-width="1"></path>
+              <path d="M81.851,112.125L102.523,92.869L160.467,80L224.362,120.74L260.382,125.594L299.533,160.575L293.269,204.319L324.903,225.433L337.432,278.903L367.813,311.172L361.862,330.032L378.149,342.861L354.972,352.255L303.605,348.413L295.148,331.102L276.982,341.152L283.246,363.765L259.442,403.69L244.095,446.544L222.17,460L206.509,403.055L215.905,349.481L213.087,293.981L162.973,217.822L135.097,163.427L108.16,124.933Z" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" filter="url(#glow-inv)"></path>
+              <circle cx="277.03" cy="268.44" r="4" fill="var(--accent)" filter="url(#glow-inv)"></circle>
+              <text x="290" y="272" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace">Chișinău</text>
+              <g><circle cx="95" cy="58" r="4" fill="var(--accent)" filter="url(#glow-inv)" style="animation:vlDotPulse 2s infinite alternate;"></circle><text x="95" y="44" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">US</text></g>
+              <g><circle cx="45" cy="250" r="4" fill="var(--accent)" filter="url(#glow-inv)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-.5s;"></circle><text x="45" y="236" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">EU</text></g>
+              <g><circle cx="415" cy="150" r="4" fill="var(--accent)" filter="url(#glow-inv)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-1s;"></circle><text x="415" y="136" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">UAE</text></g>
+              <g><circle cx="410" cy="420" r="4" fill="var(--accent)" filter="url(#glow-inv)" style="animation:vlDotPulse 2s infinite alternate;animation-delay:-1.5s;"></circle><text x="410" y="406" fill="#8A94A6" font-size="11" font-family="'Geist Mono',monospace" text-anchor="middle">Singapore</text></g>
+            </g>
+          </svg>
+        </div>
+        <div data-col-left data-order-second style="padding-left:0;">
+          <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">04 / INVESTMENTS</span>
+          <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 24px;line-height:1.15;">Strategic IT Investments in Eastern Europe: The Moldova Advantage</h2>
+          <p style="font-size:18px;color:#8A94A6;margin:0 0 48px;line-height:1.6;">Vortum Logic operates as a gateway for investors and enterprises entering Eastern Europe's tech ecosystem — backed by Moldova's state-guaranteed 7% flat tax regime through 2035 and a rapidly growing engineering talent pool.</p>
+          <div style="display:flex;flex-direction:column;gap:40px;margin-bottom:48px;">
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;flex-direction:column;cursor:default;"><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">State-Guaranteed 7% Flat Tax</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Moldova IT Park offers a single 7% tax on revenue, guaranteed by law through 2035 — one of the most competitive frameworks in Europe.</p></div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;flex-direction:column;cursor:default;"><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Elite Engineering Talent</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Access a rapidly growing pool of top-tier software engineers, AI researchers, and data scientists with exceptional English proficiency.</p></div>
+            <div onMouseEnter="{{ enterGroup }}" onMouseLeave="{{ leaveGroup }}" style="display:flex;flex-direction:column;cursor:default;"><h3 data-accent="#F4F6F9" style="font-size:20px;font-weight:600;margin:0 0 8px;color:#F4F6F9;transition:color .2s;">Turnkey Local Partner</h3><p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">From incorporation and IT Park residency to dedicated engineering teams, we handle the operational bridge into the market end-to-end.</p></div>
+          </div>
+          <a href="Investments.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono','SF Mono',monospace;font-size:15px;font-weight:500;color:var(--accent);text-decoration:none;">Explore Investment Opportunities →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 FRAMEWORK ============ -->
+  <section id="framework" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal>
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">05 / FRAMEWORK</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 64px;line-height:1.15;">The Vortum Framework.<br>From Architecture to Deployment.</h2>
+        <div data-fw-grid style="display:grid;grid-template-columns:1fr;border-left:1px solid #1A1D24;border-right:1px solid #1A1D24;">
+          <div onMouseEnter="{{ enterFw }}" onMouseLeave="{{ leaveFw }}" style="padding:32px;border-top:1px solid #1A1D24;position:relative;transition:background .2s;overflow:hidden;" data-fw-cell>
+            <div data-bar style="position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;"></div>
+            <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:36px;color:#1A1D24;margin-bottom:24px;display:block;transition:color .2s;">01</span>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 16px;color:#F4F6F9;">Strategic Alignment &amp; Discovery</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We audit your current operational bottlenecks or project requirements. Our engineers map out a precise technical blueprint, ensuring perfect alignment with your commercial objectives before a single line of code is written.</p>
+          </div>
+          <div onMouseEnter="{{ enterFw }}" onMouseLeave="{{ leaveFw }}" style="padding:32px;border-top:1px solid #1A1D24;position:relative;transition:background .2s;overflow:hidden;" data-fw-cell>
+            <div data-bar style="position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;"></div>
+            <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:36px;color:#1A1D24;margin-bottom:24px;display:block;transition:color .2s;">02</span>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 16px;color:#F4F6F9;">Autonomous Execution &amp; Integration</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Whether deploying an AI Swarm or spinning up a dedicated engineering team, we embed our autonomous infrastructure directly into your workspace. We operate under rigorous quality and security standards with zero management overhead from your side.</p>
+          </div>
+          <div onMouseEnter="{{ enterFw }}" onMouseLeave="{{ leaveFw }}" style="padding:32px;border-top:1px solid #1A1D24;position:relative;transition:background .2s;overflow:hidden;" data-fw-cell>
+            <div data-bar style="position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;"></div>
+            <span data-accent="#1A1D24" style="font-family:'Geist Mono',monospace;font-size:36px;color:#1A1D24;margin-bottom:24px;display:block;transition:color .2s;">03</span>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 16px;color:#F4F6F9;">Continuous Optimization &amp; Scale</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Post-deployment, we focus on performance engineering and system reliability. We refine algorithms, prevent technical debt, and ensure your new digital infrastructure seamlessly scales alongside your business growth.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 SYSTEM RESILIENCE ============ -->
+  <section id="resilience" style="padding:96px 0;border-top:1px solid #1A1D24;border-bottom:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;">
+    <div style="position:absolute;top:0;left:0;right:0;pointer-events:none;height:360px;"><canvas data-glow data-direction="down" data-variant="ambient" style="width:100%;height:100%;display:block;"></canvas></div>
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal>
+        <span style="font-family:'Geist Mono','SF Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:16px;display:block;">06 / SYSTEM RESILIENCE</span>
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 64px;line-height:1.15;">System Resilience &amp; Data Integrity.<br>Uncompromising Standards.</h2>
+        <div data-res-grid style="display:grid;grid-template-columns:1fr;gap:32px;">
+          <div onMouseEnter="{{ enterRes }}" onMouseLeave="{{ leaveRes }}" style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;transition:border-color .2s;">
+            <div data-iconbox style="width:48px;height:48px;margin-bottom:24px;display:flex;align-items:center;justify-content:center;border:1px solid #1A1D24;transition:all .2s;">
+              <svg data-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A94A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:stroke .2s;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;">IP Protection</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">All intellectual property and source code remain 100% yours. We enforce strict internal security protocols and comprehensive NDAs to guarantee your proprietary logic is fully protected.</p>
+          </div>
+          <div onMouseEnter="{{ enterRes }}" onMouseLeave="{{ leaveRes }}" style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;transition:border-color .2s;">
+            <div data-iconbox style="width:48px;height:48px;margin-bottom:24px;display:flex;align-items:center;justify-content:center;border:1px solid #1A1D24;transition:all .2s;">
+              <svg data-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A94A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:stroke .2s;"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;">Data Privacy</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">Our AI solutions and custom infrastructures are engineered with a privacy-first approach. Your corporate data is isolated, never used for public model training, and fully compliant with global security standards.</p>
+          </div>
+          <div onMouseEnter="{{ enterRes }}" onMouseLeave="{{ leaveRes }}" style="padding:32px;border:1px solid #1A1D24;background:#0D0E12;transition:border-color .2s;">
+            <div data-iconbox style="width:48px;height:48px;margin-bottom:24px;display:flex;align-items:center;justify-content:center;border:1px solid #1A1D24;transition:all .2s;">
+              <svg data-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A94A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:stroke .2s;"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            </div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;">Operational Resilience</h3>
+            <p style="font-size:14px;color:#8A94A6;margin:0;line-height:1.6;">We build with high load and fault tolerance in mind. Your systems are designed to minimize latency, eliminate single points of failure, and maintain maximum uptime.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT CTA ============ -->
+  <section id="contact" style="padding:96px 0;border-top:1px solid #1A1D24;background:#0D0E12;position:relative;z-index:10;overflow:hidden;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-reveal style="margin-bottom:64px;">
+        <h2 style="font-size:clamp(32px,4vw,48px);font-weight:700;margin:0 0 16px;line-height:1.15;">Architect Your Next Scaling Phase.</h2>
+        <p style="font-size:18px;color:#8A94A6;max-width:640px;margin:0;line-height:1.6;">Whether you need an autonomous AI workforce, a resilient software ecosystem, or an elite dedicated team—let's map out the technical blueprint for your business.</p>
+      </div>
+
+      <div style="border:1px solid #1A1D24;">
+        <div style="padding:clamp(32px,5vw,48px);border-bottom:1px solid #1A1D24;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 150% 33% at 50% 0%, rgba(0,230,119,.10) 0%, rgba(0,230,119,0) 100%);"></div>
+          <sc-if value="{{ isSubmitted }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:48px 0;position:relative;">
+              <div style="width:64px;height:64px;border-radius:9999px;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;background:rgba(0,230,118,.10);color:var(--accent);margin-bottom:16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <h3 style="font-size:24px;font-weight:700;margin:0;">Request Received</h3>
+              <p style="color:#8A94A6;margin:0;">Your request has been received. Our team will respond within 24 hours.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ onSubmit }}" style="display:grid;grid-template-columns:1fr;gap:32px 48px;position:relative;" data-form>
+              <div style="position:relative;" data-form-email>
+                <input type="email" name="email" required placeholder="Work Email" onInput="{{ onEmailInput }}" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                <sc-if value="{{ hasEmailError }}" hint-placeholder-val="{{ false }}">
+                  <span style="color:#ef4444;font-size:12px;position:absolute;bottom:-20px;left:0;">{{ emailError }}</span>
+                </sc-if>
+              </div>
+              <div>
+                <input type="text" name="company" required placeholder="Company Name" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+              </div>
+              <div data-form-full>
+                <select name="service" required style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#8A94A6;font-family:inherit;font-size:15px;outline:none;cursor:pointer;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'">
+                  <option value="" disabled selected style="background:#0D0E12;color:#8A94A6;">Select Service</option>
+                  <option value="ai-swarms" style="background:#0D0E12;color:#F4F6F9;">AI Swarms</option>
+                  <option value="custom-dev" style="background:#0D0E12;color:#F4F6F9;">Custom Development</option>
+                  <option value="staff-aug" style="background:#0D0E12;color:#F4F6F9;">Staff Augmentation</option>
+                </select>
+              </div>
+              <div data-form-full>
+                <textarea name="message" placeholder="Message (Optional)" rows="4" style="width:100%;background:transparent;border:0;border-bottom:1px solid #1A1D24;padding:12px 0;color:#F4F6F9;font-family:inherit;font-size:15px;outline:none;resize:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#1A1D24'"></textarea>
+              </div>
+              <div data-form-full>
+                <button type="submit" onMouseEnter="{{ enterPrimary }}" onMouseLeave="{{ leavePrimary }}" style="width:100%;background:var(--accent);color:#0D0E12;font-family:inherit;font-weight:600;font-size:15px;padding:16px;border:0;cursor:pointer;box-shadow:rgb(42 240 124 / 32%) 0 0 34px 0, rgba(0,255,178,.10) 0 0 0 4px;transition:box-shadow .25s ease, background .2s;">Request Technical Audit</button>
+              </div>
+            </form>
+          </sc-if>
+        </div>
+        <div style="padding:clamp(32px,5vw,48px);display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:32px;" data-calendly-row>
+          <div style="position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;right:0;width:128px;height:128px;background:rgba(0,230,118,.05);filter:blur(48px);border-radius:9999px;"></div>
+            <p style="font-family:'Geist Mono',monospace;font-size:12px;color:#8A94A6;text-transform:uppercase;letter-spacing:.15em;margin:0 0 8px;">Prefer a direct conversation?</p>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 8px;">Skip the email back-and-forth.</h3>
+            <p style="color:#8A94A6;font-size:14px;line-height:1.6;max-width:512px;margin:0;">Book a 15-minute technical audit directly with our engineering architects.</p>
+          </div>
+          <a href="https://calendly.com/vortumlogic/30min" target="_blank" rel="noreferrer" onMouseEnter="{{ enterOutline }}" onMouseLeave="{{ leaveOutline }}" style="flex-shrink:0;display:inline-block;border:1px solid var(--accent);color:var(--accent);font-weight:600;padding:16px 40px;white-space:nowrap;transition:background .2s;">Schedule via Calendly</a>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:20;pointer-events:none;height:260px;"><canvas data-glow data-direction="up" data-variant="full" style="width:100%;height:100%;display:block;"></canvas></div>
+  </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#0D0E12;border-top:1px solid #1A1D24;padding:64px 0 32px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(24px,5vw,48px);">
+      <div data-footer-grid style="display:grid;grid-template-columns:1fr;gap:48px;margin-bottom:64px;">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 86.4 85.8" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1);">
+              <polygon fill="var(--accent)" points="0,42 21.6,20.7 21.6,63.8 64.4,63.8 64.4,20.7 86.4,0 86.4,41.8 43.2,85.8"></polygon>
+            </svg>
+            <span style="font-weight:600;font-size:18px;letter-spacing:-.02em;">Vortum Logic</span>
+          </div>
+          <p style="font-size:14px;color:#8A94A6;max-width:384px;margin:0;">Architecting next-generation digital ecosystems and autonomous AI infrastructure.</p>
+        </div>
+        <div>
+          <h4 style="font-family:'Geist Mono',monospace;font-size:14px;text-transform:uppercase;color:#F4F6F9;margin:0 0 24px;">Capabilities</h4>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+            <li><button onClick="{{ goServices }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;color:#8A94A6;transition:color .2s;padding:0;">AI Solutions</button></li>
+            <li><button onClick="{{ goDevelopment }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;color:#8A94A6;transition:color .2s;padding:0;">Custom Development</button></li>
+            <li><button onClick="{{ goTeams }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;color:#8A94A6;transition:color .2s;padding:0;">Dedicated Teams</button></li>
+            <li><button onClick="{{ goFramework }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;color:#8A94A6;transition:color .2s;padding:0;">Framework</button></li>
+            <li><button onClick="{{ goResilience }}" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:14px;color:#8A94A6;transition:color .2s;padding:0;">System Resilience</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-family:'Geist Mono',monospace;font-size:14px;text-transform:uppercase;color:#F4F6F9;margin:0 0 24px;">Contact</h4>
+          <a href="mailto:partner@vortumlogic.com" onMouseEnter="{{ enterLink }}" onMouseLeave="{{ leaveLink }}" style="font-size:14px;color:#8A94A6;display:block;margin-bottom:24px;transition:color .2s;">partner@vortumlogic.com</a>
+          <div style="display:flex;gap:16px;">
+            <a href="#" onMouseEnter="{{ enterSocial }}" onMouseLeave="{{ leaveSocial }}" aria-label="LinkedIn" style="width:40px;height:40px;border:1px solid #1A1D24;display:flex;align-items:center;justify-content:center;color:#8A94A6;transition:all .2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1A1D24;padding-top:32px;">
+        <p style="font-size:12px;color:#8A94A6;text-align:center;margin:0;">© 2026 Vortum Logic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#00E676&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#00E676&quot;,&quot;#3B82F6&quot;,&quot;#F59E0B&quot;,&quot;#A855F7&quot;]},&quot;showBackgroundFX&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false, isSubmitted: false, emailError: "" };
+
+  componentDidMount() {
+    this.accent = this.props.accentColor || "#00E676";
+    document.documentElement.style.setProperty("--accent", this.accent);
+    this.fx = this.props.showBackgroundFX !== false;
+    this.initResponsive();
+    this.initScroll();
+    this.initReveal();
+    if (this.fx) {
+      this.initGlows();
+      this.initShader();
+    }
+    setTimeout(() => this.positionVisuals(), 300);
+    setTimeout(() => this.positionVisuals(), 900);
+    window.addEventListener("load", () => this.positionVisuals());
+  }
+
+  componentWillUnmount() {
+    if (this._glowResize) window.removeEventListener("resize", this._glowResize);
+    if (this._scroll) window.removeEventListener("scroll", this._scroll);
+    if (this._resp) { window.removeEventListener("resize", this._resp); }
+    if (this._shaderRAF) cancelAnimationFrame(this._shaderRAF);
+  }
+
+  // ---------- responsive layout (JS-driven media behavior) ----------
+  initResponsive() {
+    const apply = () => {
+      const wide = window.innerWidth >= 1024;
+      const md = window.innerWidth >= 768;
+      // nav
+      const dnav = document.querySelector("[data-desktop-nav]");
+      const cta = document.querySelector("[data-cta-desktop]");
+      const mbtn = document.querySelector("[data-menu-btn]");
+      if (dnav) dnav.style.display = md ? "flex" : "none";
+      if (cta) cta.style.display = md ? "block" : "none";
+      if (mbtn) mbtn.style.display = md ? "none" : "flex";
+      if (md && this.state.menuOpen) this.setState({ menuOpen: false });
+      // two-column grids
+      document.querySelectorAll("[data-grid2]").forEach(g => {
+        g.style.gridTemplateColumns = wide ? "1fr 1fr" : "1fr";
+        g.style.gap = wide ? "0" : "24px";
+      });
+      document.querySelectorAll("[data-col-left]").forEach(el => {
+        const rightBorder = el.hasAttribute("data-order-second");
+        el.style.paddingLeft = wide ? "32px" : "0";
+      });
+      // AiSolutions left col has right border; teams/dev left col (order-second) has right border
+      // handle borders + padding + ordering per grid
+      this.applyGridDetails(wide);
+      // framework + resilience grids
+      document.querySelectorAll("[data-fw-grid]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-res-grid]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr 1fr" : "1fr");
+      // footer grid
+      document.querySelectorAll("[data-footer-grid]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-niche-grid]").forEach(g => g.style.gridTemplateColumns = md ? "1fr 1fr" : "1fr");
+      // fw cell borders
+      this.applyFwBorders(md);
+      // contact form full-width cells
+      document.querySelectorAll("[data-form]").forEach(f => f.style.gridTemplateColumns = wide ? "1fr 1fr" : "1fr");
+      document.querySelectorAll("[data-form-full]").forEach(el => el.style.gridColumn = wide ? "1 / -1" : "auto");
+      document.querySelectorAll("[data-calendly-row]").forEach(el => { el.style.flexDirection = wide ? "row" : "column"; el.style.alignItems = wide ? "center" : "flex-start"; });
+    };
+    apply();
+    this._resp = apply;
+    window.addEventListener("resize", apply);
+  }
+
+  applyGridDetails(wide) {
+    // ordering: for grids whose visual has [data-order-first]/[data-order-second]
+    document.querySelectorAll("[data-order-first]").forEach(el => el.style.order = wide ? "1" : "2");
+    document.querySelectorAll("[data-order-second]").forEach(el => el.style.order = wide ? "2" : "1");
+    // borders between columns
+    document.querySelectorAll("[data-col-left]").forEach(el => {
+      // AiSolutions: left col is the text with right border (no data-order attrs)
+      if (!el.hasAttribute("data-order-second") && !el.hasAttribute("data-order-first")) {
+        el.style.borderRight = wide ? "1px solid #1A1D24" : "none";
+        el.style.paddingRight = wide ? "32px" : "0";
+        el.style.paddingLeft = "0";
+      } else {
+        // text col that sits second visually
+        el.style.borderRight = wide ? "1px solid #1A1D24" : "none";
+        el.style.paddingRight = wide ? "32px" : "0";
+        el.style.paddingLeft = "0";
+      }
+    });
+    document.querySelectorAll("[data-col-right]").forEach(el => {
+      el.style.paddingLeft = wide ? "32px" : "0";
+    });
+    this.positionVisuals();
+  }
+
+  applyFwBorders(md) {
+    const cells = document.querySelectorAll("[data-fw-cell]");
+    cells.forEach((c, i) => {
+      if (md) {
+        c.style.borderTop = "1px solid #1A1D24";
+        c.style.borderRight = i < cells.length - 1 ? "1px solid #1A1D24" : "none";
+        c.style.borderBottom = "none";
+      } else {
+        c.style.borderTop = "1px solid #1A1D24";
+        c.style.borderRight = "none";
+      }
+    });
+  }
+
+  positionVisuals() {
+    const wide = window.innerWidth >= 1024;
+    document.querySelectorAll("[data-grid2]").forEach(grid => {
+      const textCol = grid.querySelector("[data-col-left]");
+      const visCol = grid.querySelector("[data-col-right]");
+      if (!textCol || !visCol) return;
+      if (!wide) { visCol.style.paddingTop = "0"; return; }
+      const svg = visCol.querySelector("svg");
+      const p = textCol.querySelector("p");
+      const last = textCol.lastElementChild;
+      if (!svg || !p || !last) return;
+      const imgH = svg.getBoundingClientRect().height || 340;
+      const colTop = visCol.getBoundingClientRect().top;
+      const regionTop = p.getBoundingClientRect().top;
+      const regionBottom = last.getBoundingClientRect().bottom;
+      let pad = (regionTop + (regionBottom - regionTop - imgH) / 2) - colTop;
+      if (pad < 0) pad = 0;
+      visCol.style.paddingTop = pad + "px";
+    });
+  }
+
+  initScroll() {
+    const header = document.querySelector("[data-navbar]");
+    const onScroll = () => {
+      if (!header) return;
+      const s = window.scrollY > 20;
+      header.style.paddingTop = s ? "16px" : "24px";
+      header.style.paddingBottom = s ? "16px" : "24px";
+    };
+    onScroll();
+    this._scroll = onScroll;
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  initReveal() {
+    const els = document.querySelectorAll("[data-reveal]");
+    els.forEach(el => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(15px)";
+      el.style.transition = "opacity .6s ease, transform .6s ease";
+    });
+    if (!("IntersectionObserver" in window)) {
+      els.forEach(el => { el.style.opacity = "1"; el.style.transform = "none"; });
+      return;
+    }
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.style.opacity = "1";
+          en.target.style.transform = "none";
+          io.unobserve(en.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -80px 0px" });
+    els.forEach(el => io.observe(el));
+  }
+
+  // ---------- navigation ----------
+  go(id) {
+    this.setState({ menuOpen: false });
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 40;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  }
+
+  // ---------- horizon glow canvas ----------
+  drawGlow(canvas, direction, variant) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    const W = canvas.width, H = canvas.height;
+    const img = ctx.createImageData(W, H);
+    const data = img.data;
+    const cx = W / 2;
+    const s = (v) => v * dpr;
+    for (let y = 0; y < H; y++) {
+      const dy = direction === "up" ? H - y : y;
+      const f = Math.max(0, 1 - dy / H);
+      const fade = f * f * (3 - 2 * f);
+      if (variant === "ambient") {
+        const dyAmb = Math.pow(dy / (H * 0.55), 2);
+        for (let x = 0; x < W; x++) {
+          const dx = x - cx;
+          const g = 0.1 * Math.exp(-(Math.pow(dx / (W * 0.75), 2) + dyAmb)) * fade;
+          if (g <= 0.0015) continue;
+          const a = Math.min(1, g);
+          const i = (y * W + x) * 4;
+          data[i] = 0; data[i + 1] = 230; data[i + 2] = 119;
+          data[i + 3] = Math.max(0, Math.min(255, a * 255));
+        }
+        continue;
+      }
+      const dy14 = Math.pow(dy / s(14), 2);
+      const dy48 = Math.pow(dy / s(48), 2);
+      const dy130 = Math.pow(dy / s(130), 2);
+      const dyLine = Math.pow(dy / s(2.2), 2);
+      for (let x = 0; x < W; x++) {
+        const dx = x - cx;
+        const g1 = 0.32 * Math.exp(-(Math.pow(dx / (W * 0.22), 2) + dy14));
+        const g2 = 0.16 * Math.exp(-(Math.pow(dx / (W * 0.34), 2) + dy48));
+        const g3 = 0.08 * Math.exp(-(Math.pow(dx / (W * 0.5), 2) + dy130));
+        const wl = 0.45 * Math.exp(-(Math.pow(dx / (W * 0.26), 2) + dyLine));
+        const g = (g1 + g2 + g3) * fade;
+        let a = g + wl * fade;
+        if (a <= 0.0015) continue;
+        if (a > 1) a = 1;
+        const r = (255 * wl) / a;
+        const gc = (230 * g + 255 * wl) / a;
+        const b = (119 * g + 255 * wl) / a;
+        const i = (y * W + x) * 4;
+        data[i] = Math.max(0, Math.min(255, r));
+        data[i + 1] = Math.max(0, Math.min(255, gc));
+        data[i + 2] = Math.max(0, Math.min(255, b));
+        data[i + 3] = Math.max(0, Math.min(255, a * 255));
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+
+  initGlows() {
+    const redraw = () => document.querySelectorAll("canvas[data-glow]").forEach(c =>
+      this.drawGlow(c, c.getAttribute("data-direction") || "up", c.getAttribute("data-variant") || "full"));
+    redraw();
+    setTimeout(redraw, 120);
+    this._glowResize = redraw;
+    window.addEventListener("resize", redraw);
+  }
+
+  // ---------- three.js shader lines ----------
+  initShader() {
+    const container = document.querySelector("[data-shader]");
+    if (!container) return;
+    let tries = 0;
+    const start = () => {
+      if (window.THREE) { this.runShader(container); }
+      else if (tries++ < 120) { setTimeout(start, 50); }
+    };
+    start();
+  }
+
+  runShader(container) {
+    const THREE = window.THREE;
+    container.innerHTML = "";
+    const cr = 0x26 / 255, cg = 0xFF / 255, cb = 0x52 / 255;
+    const camera = new THREE.Camera(); camera.position.z = 1;
+    const scene = new THREE.Scene();
+    const geometry = new THREE.PlaneBufferGeometry(2, 2);
+    const uniforms = {
+      time: { type: "f", value: 1.0 },
+      resolution: { type: "v2", value: new THREE.Vector2() },
+      uSpeed: { type: "f", value: 0.5 },
+      uBandWidth: { type: "f", value: 0.001 },
+      uFlowDir: { type: "f", value: 1.0 },
+      uColor: { type: "v3", value: new THREE.Vector3(cr, cg, cb) },
+      uSpectrum: { type: "i", value: 0 }
+    };
+    const vertexShader = "void main(){ gl_Position = vec4(position,1.0); }";
+    const fragmentShader = [
+      "precision highp float;",
+      "uniform vec2 resolution; uniform float time; uniform float uSpeed; uniform float uBandWidth; uniform float uFlowDir; uniform vec3 uColor; uniform int uSpectrum;",
+      "float random(in float x){ return fract(sin(x)*1e4); }",
+      "void main(void){",
+      "  vec2 uv = (gl_FragCoord.xy*2.0 - resolution.xy)/min(resolution.x,resolution.y);",
+      "  float t = time*uSpeed*0.06*uFlowDir + random(uv.x)*0.4;",
+      "  vec3 color = vec3(0.0);",
+      "  float brightness = 0.0;",
+      "  for(int i=0;i<5;i++){ brightness += uBandWidth*float(i*i)/abs(fract(t+float(i)*0.01)*1.0 - length(uv)); }",
+      "  color = uColor*brightness;",
+      "  gl_FragColor = vec4(color,1.0);",
+      "}"
+    ].join("\n");
+    const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
+    const onResize = () => {
+      const rect = container.getBoundingClientRect();
+      renderer.setSize(rect.width, rect.height);
+      uniforms.resolution.value.x = renderer.domElement.width;
+      uniforms.resolution.value.y = renderer.domElement.height;
+    };
+    onResize();
+    window.addEventListener("resize", onResize);
+    const animate = () => {
+      this._shaderRAF = requestAnimationFrame(animate);
+      uniforms.time.value += 0.05;
+      renderer.render(scene, camera);
+    };
+    animate();
+  }
+
+  // ---------- form ----------
+  onSubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email") || "");
+    const free = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"];
+    const domain = email.split("@")[1];
+    if (free.includes(domain)) { this.setState({ emailError: "Please use your corporate email address." }); return; }
+    this.setState({ isSubmitted: true });
+  };
+  onEmailInput = () => { if (this.state.emailError) this.setState({ emailError: "" }); };
+
+  // ---------- hover handlers ----------
+  enterLink = (e) => { e.currentTarget.style.color = this.accent || "#00E676"; };
+  leaveLink = (e) => { e.currentTarget.style.color = "#8A94A6"; };
+  enterPrimary = (e) => { e.currentTarget.style.boxShadow = "rgb(42 240 124 / 55%) 0px 0px 52px 0px, rgba(0,255,178,0.22) 0px 0px 0px 6px"; e.currentTarget.style.filter = "brightness(.92)"; };
+  leavePrimary = (e) => { e.currentTarget.style.boxShadow = "rgb(42 240 124 / 32%) 0px 0px 34px 0px, rgba(0,255,178,0.1) 0px 0px 0px 4px"; e.currentTarget.style.filter = "none"; };
+  enterOutline = (e) => { e.currentTarget.style.background = "rgba(0,230,118,.10)"; };
+  leaveOutline = (e) => { e.currentTarget.style.background = "transparent"; };
+  enterGroup = (e) => { e.currentTarget.querySelectorAll("[data-accent]").forEach(el => el.style.color = this.accent || "#00E676"); };
+  leaveGroup = (e) => { e.currentTarget.querySelectorAll("[data-accent]").forEach(el => el.style.color = el.getAttribute("data-accent")); };
+  enterFw = (e) => {
+    e.currentTarget.style.background = "rgba(0,230,118,.05)";
+    const bar = e.currentTarget.querySelector("[data-bar]"); if (bar) bar.style.transform = "scaleX(1)";
+    e.currentTarget.querySelectorAll("[data-accent]").forEach(el => el.style.color = this.accent || "#00E676");
+  };
+  leaveFw = (e) => {
+    e.currentTarget.style.background = "transparent";
+    const bar = e.currentTarget.querySelector("[data-bar]"); if (bar) bar.style.transform = "scaleX(0)";
+    e.currentTarget.querySelectorAll("[data-accent]").forEach(el => el.style.color = el.getAttribute("data-accent"));
+  };
+  enterRes = (e) => {
+    e.currentTarget.style.borderColor = "rgba(0,230,118,.5)";
+    const box = e.currentTarget.querySelector("[data-iconbox]"); if (box) { box.style.borderColor = "rgba(0,230,118,.5)"; box.style.background = "rgba(0,230,118,.10)"; }
+    const ic = e.currentTarget.querySelector("[data-icon]"); if (ic) ic.style.stroke = this.accent || "#00E676";
+  };
+  leaveRes = (e) => {
+    e.currentTarget.style.borderColor = "#1A1D24";
+    const box = e.currentTarget.querySelector("[data-iconbox]"); if (box) { box.style.borderColor = "#1A1D24"; box.style.background = "transparent"; }
+    const ic = e.currentTarget.querySelector("[data-icon]"); if (ic) ic.style.stroke = "#8A94A6";
+  };
+  enterSocial = (e) => { e.currentTarget.style.color = this.accent || "#00E676"; e.currentTarget.style.borderColor = this.accent || "#00E676"; };
+  leaveSocial = (e) => { e.currentTarget.style.color = "#8A94A6"; e.currentTarget.style.borderColor = "#1A1D24"; };
+
+  toggleMenu = () => this.setState(s => ({ menuOpen: !s.menuOpen }));
+
+  renderVals() {
+    return {
+      menuOpen: this.state.menuOpen,
+      isSubmitted: this.state.isSubmitted,
+      notSubmitted: !this.state.isSubmitted,
+      emailError: this.state.emailError,
+      hasEmailError: !!this.state.emailError,
+      goTop: () => { this.setState({ menuOpen: false }); window.scrollTo({ top: 0, behavior: "smooth" }); },
+      goServices: () => this.go("services"),
+      goDevelopment: () => this.go("development"),
+      goTeams: () => this.go("teams"),
+      goFramework: () => this.go("framework"),
+      goResilience: () => this.go("resilience"),
+      goContact: () => this.go("contact"),
+      toggleMenu: this.toggleMenu,
+      onSubmit: this.onSubmit,
+      onEmailInput: this.onEmailInput,
+      enterLink: this.enterLink, leaveLink: this.leaveLink,
+      enterPrimary: this.enterPrimary, leavePrimary: this.leavePrimary,
+      enterOutline: this.enterOutline, leaveOutline: this.leaveOutline,
+      enterGroup: this.enterGroup, leaveGroup: this.leaveGroup,
+      enterFw: this.enterFw, leaveFw: this.leaveFw,
+      enterRes: this.enterRes, leaveRes: this.leaveRes,
+      enterSocial: this.enterSocial, leaveSocial: this.leaveSocial
+    };
+  }
+}
+</script>
+</body>
+</html>
