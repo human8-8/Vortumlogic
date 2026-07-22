@@ -7,8 +7,8 @@ type NavItem = { label: string; homeId: string; route?: string };
 
 const NAV_ITEMS: NavItem[] = [
   { label: "AI Solutions", homeId: "services", route: "/ai-solutions" },
-  { label: "Custom Development", homeId: "development" },
-  { label: "Dedicated Teams", homeId: "teams" },
+  { label: "Custom Development", homeId: "development", route: "/custom-development" },
+  { label: "Dedicated Teams", homeId: "teams", route: "/dedicated-teams" },
   { label: "Framework", homeId: "framework" },
 ];
 
