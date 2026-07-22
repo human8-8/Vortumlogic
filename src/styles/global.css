@@ -261,7 +261,9 @@ button {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  min-height: 400px;
+}
+@media (min-width: 1024px) {
+  .vl-col-visual { min-height: 400px; }
 }
 @media (min-width: 1024px) {
   .vl-col-visual.vl-col-padded { padding-left: 32px; }
