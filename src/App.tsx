@@ -5,6 +5,9 @@ import AiSolutions from "./pages/AiSolutions";
 import BusinessAviation from "./pages/BusinessAviation";
 import RealEstate from "./pages/RealEstate";
 import Investments from "./pages/Investments";
+import CustomDevelopment from "./pages/CustomDevelopment";
+import DedicatedTeams from "./pages/DedicatedTeams";
+import DedicatedTeamsRates from "./pages/DedicatedTeamsRates";
 
 export default function App() {
   return (
@@ -16,6 +19,9 @@ export default function App() {
         <Route path="/business-aviation" element={<BusinessAviation />} />
         <Route path="/real-estate" element={<RealEstate />} />
         <Route path="/investments" element={<Investments />} />
+        <Route path="/custom-development" element={<CustomDevelopment />} />
+        <Route path="/dedicated-teams" element={<DedicatedTeams />} />
+        <Route path="/dedicated-teams/rates" element={<DedicatedTeamsRates />} />
       </Routes>
     </BrowserRouter>
   );
