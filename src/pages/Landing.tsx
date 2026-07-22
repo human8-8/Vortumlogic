@@ -219,6 +219,9 @@ export default function Landing() {
                   <NumberedIntro n="02" title="Product Lifecycle Management" body="From initial strategic mapping to full-scale deployment, we own the entire execution process. Our cross-functional engineering units operate with complete autonomy, converting your high-level business goals into secure, production-ready systems." />
                   <NumberedIntro n="03" title="Risk Mitigation" body="Predictability is embedded into our development DNA. We enforce rigorous quality standards and institutional knowledge-sharing, ensuring your deadlines are met without compromise." />
                 </div>
+                <Link to="/custom-development" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 48, fontFamily: "'Geist Mono','SF Mono',monospace", fontSize: 15, fontWeight: 500 }}>
+                  Explore Custom Development in depth →
+                </Link>
               </div>
             </Reveal>
           </div>
@@ -244,6 +247,9 @@ export default function Landing() {
                   <TitleIntro title="Instant Frictionless Integration" body="We don't just send contract individuals; we embed high-velocity squads into your existing workflows. Our teams adapt to your internal engineering culture, tools, and communication standards from day one, minimizing management friction." />
                   <TitleIntro title="Predictable Capacity Control" body="Mitigate the volatility of tech scaling. With flexible engagement models, you retain complete strategic control over your engineering bandwidth, enabling your enterprise to ramp capacity up or down as market conditions demand." />
                 </div>
+                <Link to="/dedicated-teams" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 48, fontFamily: "'Geist Mono','SF Mono',monospace", fontSize: 15, fontWeight: 500 }}>
+                  Explore Dedicated Teams in depth →
+                </Link>
               </div>
               <div className="vl-col-visual vl-order-second">
                 <TeamsMapVisual />
@@ -263,18 +269,18 @@ export default function Landing() {
               <div className="vl-col-text vl-col-padded vl-order-second">
                 <span style={{ fontFamily: "'Geist Mono','SF Mono',monospace", fontSize: 14, color: "var(--accent)", marginBottom: 16, display: "block" }}>04 / INVESTMENTS</span>
                 <h2 style={{ fontSize: "clamp(32px,4vw,48px)", fontWeight: 700, margin: "0 0 24px", lineHeight: 1.15 }}>
-                  Strategic IT Investments in Eastern Europe: The Moldova Advantage
+                  The Numbers Already Make the Case for Moldova
                 </h2>
                 <p style={{ fontSize: 18, color: "var(--muted)", margin: "0 0 48px", lineHeight: 1.6 }}>
-                  Vortum Logic operates as a gateway for investors and enterprises entering Eastern Europe's tech ecosystem — backed by Moldova's state-guaranteed 7% flat tax regime through 2035 and a rapidly growing engineering talent pool.
+                  Before you take our word for it, look at what the country has already built: a tax regime, an infrastructure, and a workforce engineered for exactly this kind of expansion.
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 40, marginBottom: 48 }}>
-                  <TitleIntro title="State-Guaranteed 7% Flat Tax" body="Moldova IT Park offers a single 7% tax on revenue, guaranteed by law through 2035 — one of the most competitive frameworks in Europe." />
-                  <TitleIntro title="Elite Engineering Talent" body="Access a rapidly growing pool of top-tier software engineers, AI researchers, and data scientists with exceptional English proficiency." />
-                  <TitleIntro title="Turnkey Local Partner" body="From incorporation and IT Park residency to dedicated engineering teams, we handle the operational bridge into the market end-to-end." />
+                  <TitleIntro title="7% All-Inclusive Tax, Guaranteed Through 2035" body="One flat rate replaces corporate, payroll, and social taxes — locked in by state law, not policy that can shift next year." />
+                  <TitleIntro title="Elite, Connected Infrastructure" body="3rd in the world for gigabit internet coverage, with over 90% of the population online at gigabit speed." />
+                  <TitleIntro title="A Workforce Built for Scale" body="The ICT sector drives 7% of national GDP — and by share of tech workers, Moldova ranks 2nd in Europe, right behind Estonia." />
                 </div>
                 <Link to="/investments" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "'Geist Mono','SF Mono',monospace", fontSize: 15, fontWeight: 500 }}>
-                  Explore Investment Opportunities →
+                  See the full investment case →
                 </Link>
               </div>
             </Reveal>
