@@ -201,7 +201,7 @@ export default function Landing() {
           <HorizonGlow direction="down" variant="ambient" height={360} />
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(24px,5vw,48px)" }}>
             <Reveal className="vl-grid2">
-              <div className="vl-col-visual vl-order-first">
+              <div className="vl-col-visual vl-col-bordered vl-order-first">
                 <CubeVisual />
               </div>
               <div className="vl-col-text vl-col-padded vl-order-second">
@@ -263,7 +263,7 @@ export default function Landing() {
           <HorizonGlow direction="down" variant="ambient" height={360} />
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(24px,5vw,48px)" }}>
             <Reveal className="vl-grid2">
-              <div className="vl-col-visual vl-order-first">
+              <div className="vl-col-visual vl-col-bordered vl-order-first">
                 <InvestmentsMiniMapVisual />
               </div>
               <div className="vl-col-text vl-col-padded vl-order-second">
