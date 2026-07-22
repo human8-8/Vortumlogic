@@ -1,6 +1,6 @@
 export default function TeamsMapVisual() {
   return (
-    <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style={{ width: "100%", height: "auto", display: "block" }}>
+    <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style={{ width: "100%", height: 408 }}>
       <defs>
         <filter id="glow-map" x="-80%" y="-80%" width="260%" height="260%">
           <feGaussianBlur stdDeviation="4" result="blur" />
