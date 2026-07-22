@@ -201,10 +201,10 @@ export default function Landing() {
           <HorizonGlow direction="down" variant="ambient" height={360} />
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(24px,5vw,48px)" }}>
             <Reveal className="vl-grid2">
-              <div className="vl-col-visual vl-col-bordered vl-order-first">
+              <div className="vl-col-visual vl-order-first">
                 <CubeVisual />
               </div>
-              <div className="vl-col-text vl-col-padded vl-order-second">
+              <div className="vl-col-text vl-col-left-bordered vl-order-second">
                 <span style={{ fontFamily: "'Geist Mono','SF Mono',monospace", fontSize: 14, color: "var(--accent)", marginBottom: 16, display: "block" }}>02 / CUSTOM DEVELOPMENT</span>
                 <h2 style={{ fontSize: "clamp(32px,4vw,48px)", fontWeight: 700, margin: "0 0 24px", lineHeight: 1.15 }}>
                   Engineering Excellence.
@@ -263,10 +263,10 @@ export default function Landing() {
           <HorizonGlow direction="down" variant="ambient" height={360} />
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(24px,5vw,48px)" }}>
             <Reveal className="vl-grid2">
-              <div className="vl-col-visual vl-col-bordered vl-order-first">
+              <div className="vl-col-visual vl-order-first">
                 <InvestmentsMiniMapVisual />
               </div>
-              <div className="vl-col-text vl-col-padded vl-order-second">
+              <div className="vl-col-text vl-col-left-bordered vl-order-second">
                 <span style={{ fontFamily: "'Geist Mono','SF Mono',monospace", fontSize: 14, color: "var(--accent)", marginBottom: 16, display: "block" }}>04 / INVESTMENTS</span>
                 <h2 style={{ fontSize: "clamp(32px,4vw,48px)", fontWeight: 700, margin: "0 0 24px", lineHeight: 1.15 }}>
                   The Numbers Already Make the Case for Moldova

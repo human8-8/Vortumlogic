@@ -254,6 +254,7 @@ button {
 }
 @media (min-width: 1024px) {
   .vl-col-text.vl-col-bordered { border-right: 1px solid var(--border); padding-right: 32px; }
+  .vl-col-text.vl-col-left-bordered { border-left: 1px solid var(--border); padding-left: 32px; }
   .vl-col-text.vl-col-padded { padding-left: 32px; }
 }
 
